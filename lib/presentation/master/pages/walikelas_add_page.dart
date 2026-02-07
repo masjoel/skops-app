@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/core/components/buttons.dart';
 import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
-import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
-import 'package:webview_skops/presentation/master/models/siswa_request_model.dart';
+import 'package:webview_skops/core/extensions/string_ext.dart';
+import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
+import 'package:webview_skops/presentation/master/bloc/walikelas/walikelas_bloc.dart';
+import 'package:webview_skops/presentation/master/models/guru_response_model.dart';
+import 'package:webview_skops/presentation/master/models/walikelas_request_model.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
@@ -12,27 +15,25 @@ import 'package:webview_skops/presentation/setting/models/ekstensi_response_mode
 import 'package:webview_skops/presentation/setting/models/jurusan_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/kelas_response_model.dart';
 
-class AddSiswaPage extends StatefulWidget {
-  const AddSiswaPage({super.key});
+class AddWalikelasPage extends StatefulWidget {
+  const AddWalikelasPage({super.key});
 
   @override
-  State<AddSiswaPage> createState() => _AddSiswaPageState();
+  State<AddWalikelasPage> createState() => _AddWalikelasPageState();
 }
 
-class _AddSiswaPageState extends State<AddSiswaPage> {
-  late TextEditingController namaController;
-  late TextEditingController nisController;
-  late TextEditingController nisnController;
+class _AddWalikelasPageState extends State<AddWalikelasPage> {
+  late TextEditingController tahunController;
   bool _hasPopped = false;
+  Guru? selectGuru;
   Kelas? selectKelas;
   KelasExt? selectExt;
   Jurusan? selectJurusan;
 
   @override
   void initState() {
-    namaController = TextEditingController();
-    nisController = TextEditingController();
-    nisnController = TextEditingController();
+    tahunController = TextEditingController();
+    context.read<GuruBloc>().add(const GuruEvent.listGuru('Aktif'));
     context.read<KelasBloc>().add(const KelasEvent.fetch());
     context.read<EkstensiBloc>().add(const EkstensiEvent.fetch());
     context.read<JurusanBloc>().add(const JurusanEvent.fetch());
@@ -41,9 +42,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
 
   @override
   void dispose() {
-    namaController.dispose();
-    nisController.dispose();
-    nisnController.dispose();
+    tahunController.dispose();
     super.dispose();
   }
 
@@ -53,7 +52,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
-          'Tambah Siswa',
+          'Tambah Walikelas',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
@@ -63,34 +62,51 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
         child: ListView(
           padding: const EdgeInsets.all(24.0),
           children: [
-            TextField(
-              controller: namaController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            Row(
+              children: [
+                Expanded(
+                  child: BlocConsumer<GuruBloc, GuruState>(
+                    listener: (context, state) {
+                      if (state is GuruSukses) {
+                        selectGuru = selectGuru ?? state.guru.first;
+                      }
+                    },
+                    builder: (context, state) {
+                      switch (state) {
+                        case GuruInitial():
+                          return const Text('jurusan tidak ada');
+                        case GuruLoading():
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case GuruSukses():
+                          return buildGuruDropdown(state.guru);
+                        case Error():
+                          return Text('Belum ada data');
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                 ),
-                labelText: 'Nama Siswa',
-              ),
+              ],
             ),
             const SpaceHeight(8.0),
             TextField(
-              controller: nisController,
+              controller: tahunController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
-                labelText: 'NIS',
+                labelText: 'Tahun',
               ),
-            ),
-            const SpaceHeight(8.0),
-            TextField(
-              controller: nisnController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                ),
-                labelText: 'NISN',
-              ),
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                final int tahunValue = value.toIntegerFromText;
+                tahunController.text = tahunValue.toString();
+                tahunController.selection = TextSelection.fromPosition(
+                  TextPosition(offset: tahunController.text.length),
+                );
+              },
             ),
             const SpaceHeight(8.0),
             Row(
@@ -178,19 +194,19 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
             ),
 
             const SpaceHeight(20.0),
-            BlocConsumer<SiswaBloc, SiswaState>(
+            BlocConsumer<WalikelasBloc, WalikelasState>(
               listener: (context, state) {
-                if (state is SiswaSukses && !_hasPopped) {
+                if (state is WalikelasSukses && !_hasPopped) {
                   _hasPopped = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Siswa berhasil ditambahkan'),
+                      content: Text('Walikelas berhasil ditambahkan'),
                       backgroundColor: AppColors.primary,
                     ),
                   );
                   Navigator.pop(context, true);
                 }
-                if (state is SiswaError) {
+                if (state is WalikelasError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message),
@@ -200,21 +216,20 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
                 }
               },
               builder: (context, state) {
-                final bool isLoading = state is SiswaLoading;
+                final bool isLoading = state is WalikelasLoading;
                 return Button.filled(
                   color: AppColors.primary,
                   onPressed: () {
-                    if (state is SiswaLoading) return;
+                    if (state is WalikelasLoading) return;
 
-                    context.read<SiswaBloc>().add(
-                      SiswaEvent.addSiswa(
-                        SiswaRequestModel(
-                          nama: namaController.text,
-                          nis: nisController.text,
-                          nisn: nisnController.text,
+                    context.read<WalikelasBloc>().add(
+                      WalikelasEvent.addWalikelas(
+                        WalikelasRequestModel(
+                          idguru: selectGuru!.id,
                           kelas: selectKelas!.name,
                           ext: selectExt!.name,
                           jurusan: selectJurusan!.name,
+                          tahun: tahunController.text.toIntegerFromText,
                         ),
                       ),
                     );
@@ -288,14 +303,34 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
         ),
       ),
       items: jurusan.map((val) {
-        return DropdownMenuItem<Jurusan>(
-          value: val,
-          child: Text(val.name),
-        );
+        return DropdownMenuItem<Jurusan>(value: val, child: Text(val.name));
       }).toList(),
       onChanged: (value) {
         setState(() {
           selectJurusan = value;
+        });
+      },
+    );
+  }
+
+  Widget buildGuruDropdown(List<Guru> guru) {
+    return DropdownButtonFormField<Guru>(
+      isExpanded: true,
+      value: selectGuru,
+      decoration: InputDecoration(
+        labelText: 'Nama Wali Kelas',
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 16,
+        ),
+      ),
+      items: guru.map((val) {
+        return DropdownMenuItem<Guru>(value: val, child: Text(val.nama));
+      }).toList(),
+      onChanged: (value) {
+        setState(() {
+          selectGuru = value;
         });
       },
     );

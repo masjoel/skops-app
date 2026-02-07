@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
-import 'package:webview_skops/data/models/response/siswa_response_model.dart';
+import 'package:webview_skops/presentation/master/models/siswa_response_model.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
 import 'package:webview_skops/presentation/master/pages/siswa_edit_page.dart';
-import '../../../core/components/spaces.dart';
-import '../../../core/constants/colors.dart';
+import '../../../../core/components/spaces.dart';
+import '../../../../core/constants/colors.dart';
 
 class SiswaItem extends StatefulWidget {
   final Siswa data;
@@ -57,14 +57,14 @@ class _SiswaItemState extends State<SiswaItem> {
                         widget.data.nama,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Colors.black,
                         ),
                         textAlign: TextAlign.start,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SpaceHeight(1), // jarak underline
-                      Container(height: 1, width: 100, color: Colors.blue),
+                      Container(height: 1, width: 100, color: Colors.black),
                     ],
                   ),
                 ),
@@ -94,7 +94,7 @@ class _SiswaItemState extends State<SiswaItem> {
                                 bloc.add(
                                   SiswaEvent.deleteSiswa(widget.data.id),
                                 );
-                                bloc.add(const SiswaEvent.fetch());
+                                bloc.add(const SiswaEvent.loadSiswa());
                                 Navigator.pop(context);
                               },
                               child: const Text("Hapus"),
@@ -128,12 +128,14 @@ class _SiswaItemState extends State<SiswaItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('NIS', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(widget.data.nis),
                 ],
               ),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('NISN', style: TextStyle(fontWeight: FontWeight.bold)),
                   Text(widget.data.nisn),

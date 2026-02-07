@@ -55,16 +55,19 @@ extension SiswaEventPatterns on SiswaEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Fetch value)?  fetch,TResult Function( _SearchSiswa value)?  searchSiswa,TResult Function( _AddSiswa value)?  addSiswa,TResult Function( _DeleteSiswa value)?  deleteSiswa,TResult Function( _UpdateSiswa value)?  updateSiswa,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Fetch value)?  fetch,TResult Function( _LoadMore value)?  loadMore,TResult Function( _AddSiswa value)?  addSiswa,TResult Function( _DeleteSiswa value)?  deleteSiswa,TResult Function( _UpdateSiswa value)?  updateSiswa,TResult Function( _SearchSiswa value)?  searchSiswa,TResult Function( _LoadSiswa value)?  loadSiswa,TResult Function( _Refresh value)?  refresh,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Fetch() when fetch != null:
-return fetch(_that);case _SearchSiswa() when searchSiswa != null:
-return searchSiswa(_that);case _AddSiswa() when addSiswa != null:
+return fetch(_that);case _LoadMore() when loadMore != null:
+return loadMore(_that);case _AddSiswa() when addSiswa != null:
 return addSiswa(_that);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that);case _UpdateSiswa() when updateSiswa != null:
-return updateSiswa(_that);case _:
+return updateSiswa(_that);case _SearchSiswa() when searchSiswa != null:
+return searchSiswa(_that);case _LoadSiswa() when loadSiswa != null:
+return loadSiswa(_that);case _Refresh() when refresh != null:
+return refresh(_that);case _:
   return orElse();
 
 }
@@ -82,16 +85,19 @@ return updateSiswa(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Fetch value)  fetch,required TResult Function( _SearchSiswa value)  searchSiswa,required TResult Function( _AddSiswa value)  addSiswa,required TResult Function( _DeleteSiswa value)  deleteSiswa,required TResult Function( _UpdateSiswa value)  updateSiswa,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Fetch value)  fetch,required TResult Function( _LoadMore value)  loadMore,required TResult Function( _AddSiswa value)  addSiswa,required TResult Function( _DeleteSiswa value)  deleteSiswa,required TResult Function( _UpdateSiswa value)  updateSiswa,required TResult Function( _SearchSiswa value)  searchSiswa,required TResult Function( _LoadSiswa value)  loadSiswa,required TResult Function( _Refresh value)  refresh,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _Fetch():
-return fetch(_that);case _SearchSiswa():
-return searchSiswa(_that);case _AddSiswa():
+return fetch(_that);case _LoadMore():
+return loadMore(_that);case _AddSiswa():
 return addSiswa(_that);case _DeleteSiswa():
 return deleteSiswa(_that);case _UpdateSiswa():
-return updateSiswa(_that);case _:
+return updateSiswa(_that);case _SearchSiswa():
+return searchSiswa(_that);case _LoadSiswa():
+return loadSiswa(_that);case _Refresh():
+return refresh(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -108,16 +114,19 @@ return updateSiswa(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Fetch value)?  fetch,TResult? Function( _SearchSiswa value)?  searchSiswa,TResult? Function( _AddSiswa value)?  addSiswa,TResult? Function( _DeleteSiswa value)?  deleteSiswa,TResult? Function( _UpdateSiswa value)?  updateSiswa,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Fetch value)?  fetch,TResult? Function( _LoadMore value)?  loadMore,TResult? Function( _AddSiswa value)?  addSiswa,TResult? Function( _DeleteSiswa value)?  deleteSiswa,TResult? Function( _UpdateSiswa value)?  updateSiswa,TResult? Function( _SearchSiswa value)?  searchSiswa,TResult? Function( _LoadSiswa value)?  loadSiswa,TResult? Function( _Refresh value)?  refresh,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Fetch() when fetch != null:
-return fetch(_that);case _SearchSiswa() when searchSiswa != null:
-return searchSiswa(_that);case _AddSiswa() when addSiswa != null:
+return fetch(_that);case _LoadMore() when loadMore != null:
+return loadMore(_that);case _AddSiswa() when addSiswa != null:
 return addSiswa(_that);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that);case _UpdateSiswa() when updateSiswa != null:
-return updateSiswa(_that);case _:
+return updateSiswa(_that);case _SearchSiswa() when searchSiswa != null:
+return searchSiswa(_that);case _LoadSiswa() when loadSiswa != null:
+return loadSiswa(_that);case _Refresh() when refresh != null:
+return refresh(_that);case _:
   return null;
 
 }
@@ -134,15 +143,18 @@ return updateSiswa(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function()?  fetch,TResult Function( String query)?  searchSiswa,TResult Function( SiswaRequestModel siswa)?  addSiswa,TResult Function( int id)?  deleteSiswa,TResult Function( Siswa siswa)?  updateSiswa,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String? search)?  fetch,TResult Function()?  loadMore,TResult Function( SiswaRequestModel siswa)?  addSiswa,TResult Function( int id)?  deleteSiswa,TResult Function( Siswa siswa)?  updateSiswa,TResult Function( String query)?  searchSiswa,TResult Function()?  loadSiswa,TResult Function()?  refresh,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Fetch() when fetch != null:
-return fetch();case _SearchSiswa() when searchSiswa != null:
-return searchSiswa(_that.query);case _AddSiswa() when addSiswa != null:
+return fetch(_that.search);case _LoadMore() when loadMore != null:
+return loadMore();case _AddSiswa() when addSiswa != null:
 return addSiswa(_that.siswa);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that.id);case _UpdateSiswa() when updateSiswa != null:
-return updateSiswa(_that.siswa);case _:
+return updateSiswa(_that.siswa);case _SearchSiswa() when searchSiswa != null:
+return searchSiswa(_that.query);case _LoadSiswa() when loadSiswa != null:
+return loadSiswa();case _Refresh() when refresh != null:
+return refresh();case _:
   return orElse();
 
 }
@@ -160,15 +172,18 @@ return updateSiswa(_that.siswa);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function()  fetch,required TResult Function( String query)  searchSiswa,required TResult Function( SiswaRequestModel siswa)  addSiswa,required TResult Function( int id)  deleteSiswa,required TResult Function( Siswa siswa)  updateSiswa,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String? search)  fetch,required TResult Function()  loadMore,required TResult Function( SiswaRequestModel siswa)  addSiswa,required TResult Function( int id)  deleteSiswa,required TResult Function( Siswa siswa)  updateSiswa,required TResult Function( String query)  searchSiswa,required TResult Function()  loadSiswa,required TResult Function()  refresh,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _Fetch():
-return fetch();case _SearchSiswa():
-return searchSiswa(_that.query);case _AddSiswa():
+return fetch(_that.search);case _LoadMore():
+return loadMore();case _AddSiswa():
 return addSiswa(_that.siswa);case _DeleteSiswa():
 return deleteSiswa(_that.id);case _UpdateSiswa():
-return updateSiswa(_that.siswa);case _:
+return updateSiswa(_that.siswa);case _SearchSiswa():
+return searchSiswa(_that.query);case _LoadSiswa():
+return loadSiswa();case _Refresh():
+return refresh();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -185,15 +200,18 @@ return updateSiswa(_that.siswa);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function()?  fetch,TResult? Function( String query)?  searchSiswa,TResult? Function( SiswaRequestModel siswa)?  addSiswa,TResult? Function( int id)?  deleteSiswa,TResult? Function( Siswa siswa)?  updateSiswa,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String? search)?  fetch,TResult? Function()?  loadMore,TResult? Function( SiswaRequestModel siswa)?  addSiswa,TResult? Function( int id)?  deleteSiswa,TResult? Function( Siswa siswa)?  updateSiswa,TResult? Function( String query)?  searchSiswa,TResult? Function()?  loadSiswa,TResult? Function()?  refresh,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Fetch() when fetch != null:
-return fetch();case _SearchSiswa() when searchSiswa != null:
-return searchSiswa(_that.query);case _AddSiswa() when addSiswa != null:
+return fetch(_that.search);case _LoadMore() when loadMore != null:
+return loadMore();case _AddSiswa() when addSiswa != null:
 return addSiswa(_that.siswa);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that.id);case _UpdateSiswa() when updateSiswa != null:
-return updateSiswa(_that.siswa);case _:
+return updateSiswa(_that.siswa);case _SearchSiswa() when searchSiswa != null:
+return searchSiswa(_that.query);case _LoadSiswa() when loadSiswa != null:
+return loadSiswa();case _Refresh() when refresh != null:
+return refresh();case _:
   return null;
 
 }
@@ -237,7 +255,73 @@ String toString() {
 
 
 class _Fetch implements SiswaEvent {
-  const _Fetch();
+  const _Fetch({this.search});
+  
+
+ final  String? search;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FetchCopyWith<_Fetch> get copyWith => __$FetchCopyWithImpl<_Fetch>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fetch&&(identical(other.search, search) || other.search == search));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,search);
+
+@override
+String toString() {
+  return 'SiswaEvent.fetch(search: $search)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$FetchCopyWith<$Res> implements $SiswaEventCopyWith<$Res> {
+  factory _$FetchCopyWith(_Fetch value, $Res Function(_Fetch) _then) = __$FetchCopyWithImpl;
+@useResult
+$Res call({
+ String? search
+});
+
+
+
+
+}
+/// @nodoc
+class __$FetchCopyWithImpl<$Res>
+    implements _$FetchCopyWith<$Res> {
+  __$FetchCopyWithImpl(this._self, this._then);
+
+  final _Fetch _self;
+  final $Res Function(_Fetch) _then;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? search = freezed,}) {
+  return _then(_Fetch(
+search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _LoadMore implements SiswaEvent {
+  const _LoadMore();
   
 
 
@@ -247,7 +331,7 @@ class _Fetch implements SiswaEvent {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Fetch);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadMore);
 }
 
 
@@ -256,7 +340,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'SiswaEvent.fetch()';
+  return 'SiswaEvent.loadMore()';
 }
 
 
@@ -264,72 +348,6 @@ String toString() {
 
 
 
-
-/// @nodoc
-
-
-class _SearchSiswa implements SiswaEvent {
-  const _SearchSiswa(this.query);
-  
-
- final  String query;
-
-/// Create a copy of SiswaEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$SearchSiswaCopyWith<_SearchSiswa> get copyWith => __$SearchSiswaCopyWithImpl<_SearchSiswa>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchSiswa&&(identical(other.query, query) || other.query == query));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,query);
-
-@override
-String toString() {
-  return 'SiswaEvent.searchSiswa(query: $query)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$SearchSiswaCopyWith<$Res> implements $SiswaEventCopyWith<$Res> {
-  factory _$SearchSiswaCopyWith(_SearchSiswa value, $Res Function(_SearchSiswa) _then) = __$SearchSiswaCopyWithImpl;
-@useResult
-$Res call({
- String query
-});
-
-
-
-
-}
-/// @nodoc
-class __$SearchSiswaCopyWithImpl<$Res>
-    implements _$SearchSiswaCopyWith<$Res> {
-  __$SearchSiswaCopyWithImpl(this._self, this._then);
-
-  final _SearchSiswa _self;
-  final $Res Function(_SearchSiswa) _then;
-
-/// Create a copy of SiswaEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? query = null,}) {
-  return _then(_SearchSiswa(
-null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
-
-}
 
 /// @nodoc
 
@@ -530,6 +548,136 @@ as Siswa,
 }
 
 /// @nodoc
+
+
+class _SearchSiswa implements SiswaEvent {
+  const _SearchSiswa(this.query);
+  
+
+ final  String query;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SearchSiswaCopyWith<_SearchSiswa> get copyWith => __$SearchSiswaCopyWithImpl<_SearchSiswa>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchSiswa&&(identical(other.query, query) || other.query == query));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,query);
+
+@override
+String toString() {
+  return 'SiswaEvent.searchSiswa(query: $query)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SearchSiswaCopyWith<$Res> implements $SiswaEventCopyWith<$Res> {
+  factory _$SearchSiswaCopyWith(_SearchSiswa value, $Res Function(_SearchSiswa) _then) = __$SearchSiswaCopyWithImpl;
+@useResult
+$Res call({
+ String query
+});
+
+
+
+
+}
+/// @nodoc
+class __$SearchSiswaCopyWithImpl<$Res>
+    implements _$SearchSiswaCopyWith<$Res> {
+  __$SearchSiswaCopyWithImpl(this._self, this._then);
+
+  final _SearchSiswa _self;
+  final $Res Function(_SearchSiswa) _then;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? query = null,}) {
+  return _then(_SearchSiswa(
+null == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _LoadSiswa implements SiswaEvent {
+  const _LoadSiswa();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadSiswa);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SiswaEvent.loadSiswa()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _Refresh implements SiswaEvent {
+  const _Refresh();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Refresh);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SiswaEvent.refresh()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$SiswaState {
 
 
@@ -573,13 +721,14 @@ extension SiswaStatePatterns on SiswaState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SiswaInitial value)?  initial,TResult Function( SiswaLoading value)?  loading,TResult Function( SiswaLoaded value)?  loaded,TResult Function( SiswaSuccess value)?  success,TResult Function( SiswaError value)?  error,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SiswaInitial value)?  initial,TResult Function( SiswaLoading value)?  loading,TResult Function( SiswaLoaded value)?  loaded,TResult Function( SiswaSukses value)?  sukses,TResult Function( SiswaSuccess value)?  success,TResult Function( SiswaError value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SiswaInitial() when initial != null:
 return initial(_that);case SiswaLoading() when loading != null:
 return loading(_that);case SiswaLoaded() when loaded != null:
-return loaded(_that);case SiswaSuccess() when success != null:
+return loaded(_that);case SiswaSukses() when sukses != null:
+return sukses(_that);case SiswaSuccess() when success != null:
 return success(_that);case SiswaError() when error != null:
 return error(_that);case _:
   return orElse();
@@ -599,13 +748,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SiswaInitial value)  initial,required TResult Function( SiswaLoading value)  loading,required TResult Function( SiswaLoaded value)  loaded,required TResult Function( SiswaSuccess value)  success,required TResult Function( SiswaError value)  error,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SiswaInitial value)  initial,required TResult Function( SiswaLoading value)  loading,required TResult Function( SiswaLoaded value)  loaded,required TResult Function( SiswaSukses value)  sukses,required TResult Function( SiswaSuccess value)  success,required TResult Function( SiswaError value)  error,}){
 final _that = this;
 switch (_that) {
 case SiswaInitial():
 return initial(_that);case SiswaLoading():
 return loading(_that);case SiswaLoaded():
-return loaded(_that);case SiswaSuccess():
+return loaded(_that);case SiswaSukses():
+return sukses(_that);case SiswaSuccess():
 return success(_that);case SiswaError():
 return error(_that);case _:
   throw StateError('Unexpected subclass');
@@ -624,13 +774,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SiswaInitial value)?  initial,TResult? Function( SiswaLoading value)?  loading,TResult? Function( SiswaLoaded value)?  loaded,TResult? Function( SiswaSuccess value)?  success,TResult? Function( SiswaError value)?  error,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SiswaInitial value)?  initial,TResult? Function( SiswaLoading value)?  loading,TResult? Function( SiswaLoaded value)?  loaded,TResult? Function( SiswaSukses value)?  sukses,TResult? Function( SiswaSuccess value)?  success,TResult? Function( SiswaError value)?  error,}){
 final _that = this;
 switch (_that) {
 case SiswaInitial() when initial != null:
 return initial(_that);case SiswaLoading() when loading != null:
 return loading(_that);case SiswaLoaded() when loaded != null:
-return loaded(_that);case SiswaSuccess() when success != null:
+return loaded(_that);case SiswaSukses() when sukses != null:
+return sukses(_that);case SiswaSuccess() when success != null:
 return success(_that);case SiswaError() when error != null:
 return error(_that);case _:
   return null;
@@ -649,13 +800,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<SiswaResponseModel> siswa)?  loaded,TResult Function( List<Siswa> siswa)?  success,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Siswa> siswa)?  loaded,TResult Function( List<Siswa> siswa)?  sukses,TResult Function( List<Siswa> siswa,  int currentPage,  int lastPage,  bool hasReachedMax,  bool isLoadingMore)?  success,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SiswaInitial() when initial != null:
 return initial();case SiswaLoading() when loading != null:
 return loading();case SiswaLoaded() when loaded != null:
-return loaded(_that.siswa);case SiswaSuccess() when success != null:
-return success(_that.siswa);case SiswaError() when error != null:
+return loaded(_that.siswa);case SiswaSukses() when sukses != null:
+return sukses(_that.siswa);case SiswaSuccess() when success != null:
+return success(_that.siswa,_that.currentPage,_that.lastPage,_that.hasReachedMax,_that.isLoadingMore);case SiswaError() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -674,13 +826,14 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<SiswaResponseModel> siswa)  loaded,required TResult Function( List<Siswa> siswa)  success,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Siswa> siswa)  loaded,required TResult Function( List<Siswa> siswa)  sukses,required TResult Function( List<Siswa> siswa,  int currentPage,  int lastPage,  bool hasReachedMax,  bool isLoadingMore)  success,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case SiswaInitial():
 return initial();case SiswaLoading():
 return loading();case SiswaLoaded():
-return loaded(_that.siswa);case SiswaSuccess():
-return success(_that.siswa);case SiswaError():
+return loaded(_that.siswa);case SiswaSukses():
+return sukses(_that.siswa);case SiswaSuccess():
+return success(_that.siswa,_that.currentPage,_that.lastPage,_that.hasReachedMax,_that.isLoadingMore);case SiswaError():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -698,13 +851,14 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<SiswaResponseModel> siswa)?  loaded,TResult? Function( List<Siswa> siswa)?  success,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Siswa> siswa)?  loaded,TResult? Function( List<Siswa> siswa)?  sukses,TResult? Function( List<Siswa> siswa,  int currentPage,  int lastPage,  bool hasReachedMax,  bool isLoadingMore)?  success,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case SiswaInitial() when initial != null:
 return initial();case SiswaLoading() when loading != null:
 return loading();case SiswaLoaded() when loaded != null:
-return loaded(_that.siswa);case SiswaSuccess() when success != null:
-return success(_that.siswa);case SiswaError() when error != null:
+return loaded(_that.siswa);case SiswaSukses() when sukses != null:
+return sukses(_that.siswa);case SiswaSuccess() when success != null:
+return success(_that.siswa,_that.currentPage,_that.lastPage,_that.hasReachedMax,_that.isLoadingMore);case SiswaError() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -781,11 +935,11 @@ String toString() {
 
 
 class SiswaLoaded implements SiswaState {
-  const SiswaLoaded(final  List<SiswaResponseModel> siswa): _siswa = siswa;
+  const SiswaLoaded(final  List<Siswa> siswa): _siswa = siswa;
   
 
- final  List<SiswaResponseModel> _siswa;
- List<SiswaResponseModel> get siswa {
+ final  List<Siswa> _siswa;
+ List<Siswa> get siswa {
   if (_siswa is EqualUnmodifiableListView) return _siswa;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_siswa);
@@ -822,7 +976,7 @@ abstract mixin class $SiswaLoadedCopyWith<$Res> implements $SiswaStateCopyWith<$
   factory $SiswaLoadedCopyWith(SiswaLoaded value, $Res Function(SiswaLoaded) _then) = _$SiswaLoadedCopyWithImpl;
 @useResult
 $Res call({
- List<SiswaResponseModel> siswa
+ List<Siswa> siswa
 });
 
 
@@ -842,7 +996,7 @@ class _$SiswaLoadedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? siswa = null,}) {
   return _then(SiswaLoaded(
 null == siswa ? _self._siswa : siswa // ignore: cast_nullable_to_non_nullable
-as List<SiswaResponseModel>,
+as List<Siswa>,
   ));
 }
 
@@ -852,8 +1006,8 @@ as List<SiswaResponseModel>,
 /// @nodoc
 
 
-class SiswaSuccess implements SiswaState {
-  const SiswaSuccess(final  List<Siswa> siswa): _siswa = siswa;
+class SiswaSukses implements SiswaState {
+  const SiswaSukses(final  List<Siswa> siswa): _siswa = siswa;
   
 
  final  List<Siswa> _siswa;
@@ -868,13 +1022,13 @@ class SiswaSuccess implements SiswaState {
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$SiswaSuccessCopyWith<SiswaSuccess> get copyWith => _$SiswaSuccessCopyWithImpl<SiswaSuccess>(this, _$identity);
+$SiswaSuksesCopyWith<SiswaSukses> get copyWith => _$SiswaSuksesCopyWithImpl<SiswaSukses>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SiswaSuccess&&const DeepCollectionEquality().equals(other._siswa, _siswa));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SiswaSukses&&const DeepCollectionEquality().equals(other._siswa, _siswa));
 }
 
 
@@ -883,7 +1037,83 @@ int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(
 
 @override
 String toString() {
-  return 'SiswaState.success(siswa: $siswa)';
+  return 'SiswaState.sukses(siswa: $siswa)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SiswaSuksesCopyWith<$Res> implements $SiswaStateCopyWith<$Res> {
+  factory $SiswaSuksesCopyWith(SiswaSukses value, $Res Function(SiswaSukses) _then) = _$SiswaSuksesCopyWithImpl;
+@useResult
+$Res call({
+ List<Siswa> siswa
+});
+
+
+
+
+}
+/// @nodoc
+class _$SiswaSuksesCopyWithImpl<$Res>
+    implements $SiswaSuksesCopyWith<$Res> {
+  _$SiswaSuksesCopyWithImpl(this._self, this._then);
+
+  final SiswaSukses _self;
+  final $Res Function(SiswaSukses) _then;
+
+/// Create a copy of SiswaState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? siswa = null,}) {
+  return _then(SiswaSukses(
+null == siswa ? _self._siswa : siswa // ignore: cast_nullable_to_non_nullable
+as List<Siswa>,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class SiswaSuccess implements SiswaState {
+  const SiswaSuccess({required final  List<Siswa> siswa, required this.currentPage, required this.lastPage, required this.hasReachedMax, required this.isLoadingMore}): _siswa = siswa;
+  
+
+ final  List<Siswa> _siswa;
+ List<Siswa> get siswa {
+  if (_siswa is EqualUnmodifiableListView) return _siswa;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_siswa);
+}
+
+ final  int currentPage;
+ final  int lastPage;
+ final  bool hasReachedMax;
+ final  bool isLoadingMore;
+
+/// Create a copy of SiswaState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SiswaSuccessCopyWith<SiswaSuccess> get copyWith => _$SiswaSuccessCopyWithImpl<SiswaSuccess>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SiswaSuccess&&const DeepCollectionEquality().equals(other._siswa, _siswa)&&(identical(other.currentPage, currentPage) || other.currentPage == currentPage)&&(identical(other.lastPage, lastPage) || other.lastPage == lastPage)&&(identical(other.hasReachedMax, hasReachedMax) || other.hasReachedMax == hasReachedMax)&&(identical(other.isLoadingMore, isLoadingMore) || other.isLoadingMore == isLoadingMore));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_siswa),currentPage,lastPage,hasReachedMax,isLoadingMore);
+
+@override
+String toString() {
+  return 'SiswaState.success(siswa: $siswa, currentPage: $currentPage, lastPage: $lastPage, hasReachedMax: $hasReachedMax, isLoadingMore: $isLoadingMore)';
 }
 
 
@@ -894,7 +1124,7 @@ abstract mixin class $SiswaSuccessCopyWith<$Res> implements $SiswaStateCopyWith<
   factory $SiswaSuccessCopyWith(SiswaSuccess value, $Res Function(SiswaSuccess) _then) = _$SiswaSuccessCopyWithImpl;
 @useResult
 $Res call({
- List<Siswa> siswa
+ List<Siswa> siswa, int currentPage, int lastPage, bool hasReachedMax, bool isLoadingMore
 });
 
 
@@ -911,10 +1141,14 @@ class _$SiswaSuccessCopyWithImpl<$Res>
 
 /// Create a copy of SiswaState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? siswa = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? siswa = null,Object? currentPage = null,Object? lastPage = null,Object? hasReachedMax = null,Object? isLoadingMore = null,}) {
   return _then(SiswaSuccess(
-null == siswa ? _self._siswa : siswa // ignore: cast_nullable_to_non_nullable
-as List<Siswa>,
+siswa: null == siswa ? _self._siswa : siswa // ignore: cast_nullable_to_non_nullable
+as List<Siswa>,currentPage: null == currentPage ? _self.currentPage : currentPage // ignore: cast_nullable_to_non_nullable
+as int,lastPage: null == lastPage ? _self.lastPage : lastPage // ignore: cast_nullable_to_non_nullable
+as int,hasReachedMax: null == hasReachedMax ? _self.hasReachedMax : hasReachedMax // ignore: cast_nullable_to_non_nullable
+as bool,isLoadingMore: null == isLoadingMore ? _self.isLoadingMore : isLoadingMore // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

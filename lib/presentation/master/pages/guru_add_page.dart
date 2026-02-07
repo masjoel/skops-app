@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/core/components/buttons.dart';
 import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
-import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
-import 'package:webview_skops/presentation/master/models/siswa_request_model.dart';
+import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
+import 'package:webview_skops/presentation/master/models/guru_request_model.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
@@ -12,14 +12,14 @@ import 'package:webview_skops/presentation/setting/models/ekstensi_response_mode
 import 'package:webview_skops/presentation/setting/models/jurusan_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/kelas_response_model.dart';
 
-class AddSiswaPage extends StatefulWidget {
-  const AddSiswaPage({super.key});
+class AddGuruPage extends StatefulWidget {
+  const AddGuruPage({super.key});
 
   @override
-  State<AddSiswaPage> createState() => _AddSiswaPageState();
+  State<AddGuruPage> createState() => _AddGuruPageState();
 }
 
-class _AddSiswaPageState extends State<AddSiswaPage> {
+class _AddGuruPageState extends State<AddGuruPage> {
   late TextEditingController namaController;
   late TextEditingController nisController;
   late TextEditingController nisnController;
@@ -53,7 +53,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
-          'Tambah Siswa',
+          'Tambah Guru',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
@@ -69,7 +69,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
-                labelText: 'Nama Siswa',
+                labelText: 'Nama Guru',
               ),
             ),
             const SpaceHeight(8.0),
@@ -79,17 +79,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
-                labelText: 'NIS',
-              ),
-            ),
-            const SpaceHeight(8.0),
-            TextField(
-              controller: nisnController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                ),
-                labelText: 'NISN',
+                labelText: 'NIP',
               ),
             ),
             const SpaceHeight(8.0),
@@ -178,19 +168,19 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
             ),
 
             const SpaceHeight(20.0),
-            BlocConsumer<SiswaBloc, SiswaState>(
+            BlocConsumer<GuruBloc, GuruState>(
               listener: (context, state) {
-                if (state is SiswaSukses && !_hasPopped) {
+                if (state is GuruSukses && !_hasPopped) {
                   _hasPopped = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Siswa berhasil ditambahkan'),
+                      content: Text('Guru berhasil ditambahkan'),
                       backgroundColor: AppColors.primary,
                     ),
                   );
                   Navigator.pop(context, true);
                 }
-                if (state is SiswaError) {
+                if (state is GuruError) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(state.message),
@@ -200,18 +190,17 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
                 }
               },
               builder: (context, state) {
-                final bool isLoading = state is SiswaLoading;
+                final bool isLoading = state is GuruLoading;
                 return Button.filled(
                   color: AppColors.primary,
                   onPressed: () {
-                    if (state is SiswaLoading) return;
+                    if (state is GuruLoading) return;
 
-                    context.read<SiswaBloc>().add(
-                      SiswaEvent.addSiswa(
-                        SiswaRequestModel(
+                    context.read<GuruBloc>().add(
+                      GuruEvent.addGuru(
+                        GuruRequestModel(
                           nama: namaController.text,
-                          nis: nisController.text,
-                          nisn: nisnController.text,
+                          nip: nisController.text,
                           kelas: selectKelas!.name,
                           ext: selectExt!.name,
                           jurusan: selectJurusan!.name,
@@ -288,10 +277,7 @@ class _AddSiswaPageState extends State<AddSiswaPage> {
         ),
       ),
       items: jurusan.map((val) {
-        return DropdownMenuItem<Jurusan>(
-          value: val,
-          child: Text(val.name),
-        );
+        return DropdownMenuItem<Jurusan>(value: val, child: Text(val.name));
       }).toList(),
       onChanged: (value) {
         setState(() {

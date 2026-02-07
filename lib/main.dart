@@ -5,22 +5,19 @@ import 'package:webview_skops/data/datasources/dash_remote_datasource.dart';
 import 'package:webview_skops/data/datasources/master_remote_datasource.dart';
 import 'package:webview_skops/presentation/home/bloc/jenis_skor/jenis_skor_bloc.dart';
 import 'package:webview_skops/presentation/home/bloc/top10_skor/top10_skor_bloc.dart';
+import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
+import 'package:webview_skops/presentation/master/bloc/walikelas/walikelas_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
-import 'package:webview_skops/presentation/setting/models/ekstensi_response_model.dart';
-import 'package:webview_skops/presentation/setting/models/jurusan_response_model.dart';
 import 'package:webview_skops/splash_screen.dart';
-
 import 'core/constants/colors.dart';
-// import 'data/datasources/auth_local_datasource.dart';
 import 'data/datasources/auth_remote_datasource.dart';
 import 'presentation/auth/bloc/login/login_bloc.dart';
 import 'presentation/auth/bloc/logout/logout_bloc.dart';
 import 'presentation/auth/bloc/register/register_bloc.dart';
 import 'presentation/home/bloc/top10_poin_siswa/top10_poin_siswa_bloc.dart';
-// import 'presentation/auth/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +37,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => Top10SkorBloc(DashRemoteDatasource())),
         BlocProvider(create: (context) => JenisSkorBloc(DashRemoteDatasource())),
         BlocProvider(create: (context) => SiswaBloc(MasterRemoteDatasource())),
+        BlocProvider(create: (context) => GuruBloc(MasterRemoteDatasource())),
+        BlocProvider(create: (context) => WalikelasBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => KelasBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => EkstensiBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => JurusanBloc(MasterRemoteDatasource())),

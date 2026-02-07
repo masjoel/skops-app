@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/core/components/buttons.dart';
 import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
-import 'package:webview_skops/data/models/response/siswa_response_model.dart';
+import 'package:webview_skops/presentation/master/models/siswa_response_model.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
@@ -29,18 +29,12 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
   Kelas? selectKelas;
   KelasExt? selectExt;
   Jurusan? selectJurusan;
-  // String kelas = '-';
-  // String extension = '-';
-  // String jurusan = '-';
 
   @override
   void initState() {
     namaController = TextEditingController(text: widget.data.nama);
     nisController = TextEditingController(text: widget.data.nis);
     nisnController = TextEditingController(text: widget.data.nisn);
-    // kelas = widget.data.kelas;
-    // extension = widget.data.ext;
-    // jurusan = widget.data.jurusan;
     context.read<KelasBloc>().add(const KelasEvent.fetch());
     context.read<EkstensiBloc>().add(const EkstensiEvent.fetch());
     context.read<JurusanBloc>().add(const JurusanEvent.fetch());
@@ -223,7 +217,7 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
             const SpaceHeight(20.0),
             BlocConsumer<SiswaBloc, SiswaState>(
               listener: (context, state) {
-                if (state is SiswaSuccess && !_hasPopped) {
+                if (state is SiswaSukses && !_hasPopped) {
                   _hasPopped = true;
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -270,7 +264,7 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
                         ),
                       ),
                     );
-                    context.read<SiswaBloc>().add(const SiswaEvent.fetch());
+                    context.read<SiswaBloc>().add(const SiswaEvent.loadSiswa());
                   },
                   label: isLoading ? 'Menyimpan...' : 'Simpan',
                 );
@@ -284,6 +278,7 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
 
   Widget buildKelasDropdown(List<Kelas> kelas) {
     return DropdownButtonFormField<Kelas>(
+      isExpanded: true,
       value: selectKelas,
       decoration: InputDecoration(
         labelText: 'Kelas',
@@ -306,6 +301,7 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
 
   Widget buildExtDropdown(List<KelasExt> ekstensi) {
     return DropdownButtonFormField<KelasExt>(
+      isExpanded: true,
       value: selectExt,
       decoration: InputDecoration(
         labelText: 'Ext.',
@@ -328,6 +324,7 @@ class _EditSiswaPageState extends State<EditSiswaPage> {
 
   Widget buildJurusanDropdown(List<Jurusan> jurusan) {
     return DropdownButtonFormField<Jurusan>(
+      isExpanded: true,
       value: selectJurusan,
       decoration: InputDecoration(
         labelText: 'Jurusan',
