@@ -139,7 +139,7 @@ class _GuruItemState extends State<GuruItem> {
               ),
               Text(
                 widget.data.status,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple),
+                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
               ),
             ],
           ),

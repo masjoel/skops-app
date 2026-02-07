@@ -96,14 +96,30 @@ class _WalikelasItemState extends State<WalikelasItem> {
                             ),
                             TextButton(
                               onPressed: () async {
+                                Navigator.pop(context);
                                 final bloc = context.read<WalikelasBloc>();
+                                final subscription = bloc.stream.listen((
+                                  state,
+                                ) {
+                                  if (state is WalikelasSukses) {
+                                    bloc.add(
+                                      const WalikelasEvent.loadWalikelas(),
+                                    );
+                                  }
+                                });
+
                                 bloc.add(
                                   WalikelasEvent.deleteWalikelas(
                                     widget.data.id,
                                   ),
                                 );
-                                bloc.add(const WalikelasEvent.loadWalikelas());
-                                Navigator.pop(context);
+
+                                Future.delayed(
+                                  const Duration(milliseconds: 500),
+                                  () {
+                                    subscription.cancel();
+                                  },
+                                );
                               },
                               child: const Text("Hapus"),
                             ),
@@ -136,16 +152,6 @@ class _WalikelasItemState extends State<WalikelasItem> {
             'Tahun ${widget.data.tahun}',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Column(
-          //       children: [
-          //         Text('Tahun ${widget.data.tahun}', style: TextStyle(fontWeight: FontWeight.bold)),
-          //       ],
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );

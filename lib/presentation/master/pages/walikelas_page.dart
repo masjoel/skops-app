@@ -72,111 +72,120 @@ class _WaliKelasPageState extends State<WaliKelasPage> {
         ),
       ),
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async {
-            context.read<WalikelasBloc>().add(const WalikelasEvent.refresh());
-          },
-          child: BlocBuilder<WalikelasBloc, WalikelasState>(
-            builder: (context, state) {
-              return state.when(
-                initial: () =>
-                    const Center(child: Text('Tarik untuk memuat data')),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                loaded: (walikelas) {
-                  if (walikelas.isEmpty) {
-                    return const Center(child: Text('Tidak ada data walikelas'));
-                  }
-                  return ListView.separated(
-                    controller: scrollController,
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                      bottom: 100,
-                    ),
-                    itemCount: walikelas.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      return WalikelasItem(data: walikelas[index]);
-                    },
-                  );
-                },
-                sukses: (walikelas) {
-                  if (walikelas.isEmpty) {
-                    return const Center(child: Text('Tidak ada data walikelas'));
-                  }
-                  return ListView.separated(
-                    controller: scrollController,
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                      bottom: 100,
-                    ),
-                    itemCount: walikelas.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      return WalikelasItem(data: walikelas[index]);
-                    },
-                  );
-                },
-                success:
-                    (
-                      walikelas,
-                      currentPage,
-                      lastPage,
-                      hasReachedMax,
-                      isLoadingMore,
-                    ) {
-                      if (walikelas.isEmpty) {
-                        return const Center(child: Text('Tidak ada data walikelas'));
-                      }
-
-                      return ListView.separated(
-                        controller: scrollController,
-                        padding: const EdgeInsets.only(
-                          left: 16,
-                          right: 16,
-                          top: 16,
-                          bottom: 100,
-                        ),
-                        itemCount: walikelas.length + (isLoadingMore ? 1 : 0),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 16),
-                        itemBuilder: (context, index) {
-                          if (index >= walikelas.length) {
-                            return const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                          return WalikelasItem(data: walikelas[index]);
-                        },
-                      );
-                    },
-                error: (message) => Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(message),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.read<WalikelasBloc>().add(
-                            const WalikelasEvent.loadWalikelas(),
-                          );
-                        },
-                        child: const Text('Coba Lagi'),
-                      ),
-                    ],
-                  ),
+        child: BlocListener<WalikelasBloc, WalikelasState>(
+          listener: (context, state) {
+            if (state is WalikelasError) {
+              // Show snackbar for error
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: AppColors.red,
+                  duration: const Duration(seconds: 3),
                 ),
               );
+              
+              // Auto-reload to clear error state and prevent error screen
+              Future.delayed(const Duration(milliseconds: 200), () {
+                if (mounted) {
+                  context.read<WalikelasBloc>().add(
+                    const WalikelasEvent.loadWalikelas(),
+                  );
+                }
+              });
+            }
+          },
+          child: RefreshIndicator(
+            onRefresh: () async {
+              context.read<WalikelasBloc>().add(const WalikelasEvent.refresh());
             },
+            child: BlocBuilder<WalikelasBloc, WalikelasState>(
+              builder: (context, state) {
+                return state.when(
+                  initial: () =>
+                      const Center(child: Text('Tarik untuk memuat data')),
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loaded: (walikelas) {
+                    if (walikelas.isEmpty) {
+                      return const Center(child: Text('Tidak ada data walikelas'));
+                    }
+                    return ListView.separated(
+                      controller: scrollController,
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
+                        bottom: 100,
+                      ),
+                      itemCount: walikelas.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        return WalikelasItem(data: walikelas[index]);
+                      },
+                    );
+                  },
+                  sukses: (walikelas) {
+                    if (walikelas.isEmpty) {
+                      return const Center(child: Text('Tidak ada data walikelas'));
+                    }
+                    return ListView.separated(
+                      controller: scrollController,
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 16,
+                        bottom: 100,
+                      ),
+                      itemCount: walikelas.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        return WalikelasItem(data: walikelas[index]);
+                      },
+                    );
+                  },
+                  success:
+                      (
+                        walikelas,
+                        currentPage,
+                        lastPage,
+                        hasReachedMax,
+                        isLoadingMore,
+                      ) {
+                        if (walikelas.isEmpty) {
+                          return const Center(child: Text('Tidak ada data walikelas'));
+                        }
+
+                        return ListView.separated(
+                          controller: scrollController,
+                          padding: const EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 16,
+                            bottom: 100,
+                          ),
+                          itemCount: walikelas.length + (isLoadingMore ? 1 : 0),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 16),
+                          itemBuilder: (context, index) {
+                            if (index >= walikelas.length) {
+                              return const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            return WalikelasItem(data: walikelas[index]);
+                          },
+                        );
+                      },
+                  error: (message) => const Center(
+                    child: CircularProgressIndicator(), // Show loading while auto-reloading
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ),
