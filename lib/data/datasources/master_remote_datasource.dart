@@ -8,6 +8,8 @@ import 'package:webview_skops/presentation/master/models/siswa_response_model.da
 import 'package:webview_skops/presentation/master/models/guru_request_model.dart';
 import 'package:webview_skops/presentation/master/models/guru_response_model.dart';
 import 'package:webview_skops/presentation/master/models/siswa_request_model.dart';
+import 'package:webview_skops/presentation/master/models/skor_master_response_model.dart';
+import 'package:webview_skops/presentation/master/models/skor_request_model.dart';
 import 'package:webview_skops/presentation/master/models/walikelas_request_model.dart';
 import 'package:webview_skops/presentation/master/models/walikelas_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/ekstensi_request_model.dart';
@@ -366,6 +368,127 @@ class MasterRemoteDatasource {
   //     return Left(obj['message']);
   //   }
   // }
+
+  // --- SKOR Perilaku ---
+  Future<Either<String, SkorMasterResponseModel>> getSkor() async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.get(
+      Uri.parse('${Variables.baseUrl}/api/v1/skor'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return Right(SkorMasterResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, SkorMasterResponseModel>> addSkor(
+    SkorRequestModel data,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.post(
+      Uri.parse('${Variables.baseUrl}/api/v1/skor'),
+      headers: headers,
+      body: jsonEncode(data.toMap()),
+    );
+
+    if (response.statusCode == 201) {
+      return Right(SkorMasterResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, SkorMasterResponseModel>> editSkor(Skor data) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+
+    // DEBUG: Print request details
+    // final requestBody = jsonEncode(data.toMap());
+    // print('===== SKOR UPDATE DEBUG =====');
+    // print('URL: ${Variables.baseUrl}/api/v1/skor/${data.id}');
+    // print('Request Body: $requestBody');
+    // print('Data Object: ${data.toJson()}');
+
+    final response = await http.put(
+      Uri.parse('${Variables.baseUrl}/api/v1/skor/${data.id}'),
+      headers: headers,
+      // body: requestBody,
+      body: jsonEncode(data.toMap()),
+    );
+
+    // DEBUG: Print response details
+    // print('Response Status: ${response.statusCode}');
+    // print('Response Body: ${response.body}');
+    // print('===== END DEBUG =====');
+
+    if (response.statusCode == 200) {
+      return Right(SkorMasterResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, SkorMasterResponseModel>> deleteSkor(int id) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.delete(
+      Uri.parse('${Variables.baseUrl}/api/v1/skor/$id'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 201) {
+      return Right(SkorMasterResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, SkorMasterResponseModel>> searchSkor(
+    String query,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.get(
+      Uri.parse('${Variables.baseUrl}/api/v1/skor?search=$query'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return Right(SkorMasterResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
 
   //  --- KELAS ---
   Future<Either<String, KelasResponseModel>> getKelas() async {

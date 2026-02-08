@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:webview_skops/data/datasources/dash_remote_datasource.dart';
-import 'package:webview_skops/data/models/response/skor_response_model.dart';
+import 'package:webview_skops/presentation/master/models/skor_response_model.dart';
 
 part 'jenis_skor_event.dart';
 part 'jenis_skor_state.dart';

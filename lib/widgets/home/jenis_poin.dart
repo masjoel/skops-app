@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_skops/core/components/spaces.dart';
-import 'package:webview_skops/data/models/response/skor_response_model.dart';
+import 'package:webview_skops/presentation/master/models/skor_response_model.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:webview_skops/presentation/home/bloc/jenis_skor/jenis_skor_bloc.dart';
 

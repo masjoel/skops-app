@@ -6,5 +6,4 @@ class JenisSkorState with _$JenisSkorState {
   const factory JenisSkorState.loading() = JenisSkorLoading;
   const factory JenisSkorState.success(List<JenisSkor> jenisSkor) = JenisSkorSuccess;
   const factory JenisSkorState.error(String message) = JenisSkorError;
-
 }

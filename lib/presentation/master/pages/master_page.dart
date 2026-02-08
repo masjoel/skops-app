@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/presentation/master/pages/guru_page.dart';
 import 'package:webview_skops/presentation/master/pages/siswa_page.dart';
+import 'package:webview_skops/presentation/master/pages/skor_page.dart';
 import 'package:webview_skops/presentation/master/pages/walikelas_page.dart';
 
 import '../../../core/constants/colors.dart';
@@ -16,16 +17,13 @@ class MasterPage extends StatefulWidget {
 class _MasterPageState extends State<MasterPage> {
   @override
   void initState() {
-    // context.read<CategoriesBloc>().add(const CategoriesEvent.fetchLocal());
-    // context.read<ProductUnitsBloc>().add(const ProductUnitsEvent.fetchLocal());
-    // context.read<CashCategoryBloc>().add(const CashCategoryEvent.fetchLocal());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor:  Colors.blue.shade800,
@@ -45,6 +43,7 @@ class _MasterPageState extends State<MasterPage> {
               labelColor: AppColors.primary,
               unselectedLabelColor: Colors.black,
               tabs: [
+                Tab(child: FittedBox(child: Text('Skor Perilaku'))),
                 Tab(child: FittedBox(child: Text('Siswa'))),
                 Tab(child: FittedBox(child: Text('Guru'))),
                 Tab(child: FittedBox(child: Text('Wali Kelas'))),
@@ -53,6 +52,7 @@ class _MasterPageState extends State<MasterPage> {
             Expanded(
               child: TabBarView(
                 children: [
+                  Center(child: SkorPage()),
                   Center(child: SiswaPage()),
                   Center(child: GuruPage()),
                   Center(child: WaliKelasPage()),

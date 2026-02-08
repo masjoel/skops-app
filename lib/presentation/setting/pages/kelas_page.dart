@@ -4,7 +4,7 @@ import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
 import 'package:webview_skops/presentation/setting/pages/kelas_add_page.dart';
-import 'package:webview_skops/widgets/setting/kelas_item.dart';
+import 'package:webview_skops/presentation/setting/widgets/kelas_item.dart';
 
 class KelasPage extends StatefulWidget {
   const KelasPage({super.key});

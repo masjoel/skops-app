@@ -4,7 +4,7 @@ import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/pages/jurusan_add_page.dart';
-import 'package:webview_skops/widgets/setting/jurusan_item.dart';
+import 'package:webview_skops/presentation/setting/widgets/jurusan_item.dart';
 
 class JurusanPage extends StatefulWidget {
   const JurusanPage({super.key});

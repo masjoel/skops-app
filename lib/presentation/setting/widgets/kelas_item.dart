@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
-import 'package:webview_skops/presentation/setting/models/ekstensi_response_model.dart';
-import 'package:webview_skops/presentation/setting/pages/ekstensi_edit_page.dart';
-import '../../../core/components/spaces.dart';
-import '../../../core/constants/colors.dart';
+import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
+import 'package:webview_skops/presentation/setting/models/kelas_response_model.dart';
+import 'package:webview_skops/presentation/setting/pages/kelas_edit_page.dart';
+import '../../../../core/components/spaces.dart';
+import '../../../../core/constants/colors.dart';
 
-class EkstensiItem extends StatefulWidget {
-  final KelasExt data;
-  const EkstensiItem({super.key, required this.data});
+class KelasItem extends StatefulWidget {
+  final Kelas data;
+  const KelasItem({super.key, required this.data});
 
   @override
-  State<EkstensiItem> createState() => _EkstensiItemState();
+  State<KelasItem> createState() => _KelasItemState();
 }
 
-class _EkstensiItemState extends State<EkstensiItem> {
+class _KelasItemState extends State<KelasItem> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,7 +40,7 @@ class _EkstensiItemState extends State<EkstensiItem> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return EditEkstensiPage(data: widget.data);
+                        return EditKelasPage(data: widget.data);
                       },
                     ),
                   );
@@ -49,7 +49,9 @@ class _EkstensiItemState extends State<EkstensiItem> {
               child: Container(
                 padding: const EdgeInsets.all(2.0),
                 decoration: BoxDecoration(
-                  color: widget.data.id != 0 ? AppColors.info : Colors.grey,
+                  color: widget.data.id != 0
+                      ? AppColors.info
+                      : Colors.grey,
                   borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                 ),
                 child: const Column(
@@ -77,9 +79,9 @@ class _EkstensiItemState extends State<EkstensiItem> {
                           ),
                           TextButton(
                             onPressed: () async {
-                              final bloc = context.read<EkstensiBloc>();
-                              bloc.add(EkstensiEvent.deleteEkstensi(widget.data.id));
-                              bloc.add(const EkstensiEvent.fetch());
+                              final bloc = context.read<KelasBloc>();
+                              bloc.add(KelasEvent.deleteKelas(widget.data.id));
+                              bloc.add(const KelasEvent.fetch());
                               Navigator.pop(context);
                             },
                             child: const Text("Hapus"),

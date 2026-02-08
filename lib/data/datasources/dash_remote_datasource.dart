@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:webview_skops/core/constants/variables.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:http/http.dart' as http;
-import 'package:webview_skops/data/models/response/skor_response_model.dart';
+import 'package:webview_skops/presentation/master/models/skor_response_model.dart';
 import '../models/response/dash_totalpoin_response_model.dart';
 import '../models/response/top10_siswa_response_model.dart';
 import '../models/response/top10_skor_response_model.dart';
