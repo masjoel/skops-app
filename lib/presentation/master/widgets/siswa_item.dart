@@ -40,6 +40,7 @@ class _SiswaItemState extends State<SiswaItem> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: GestureDetector(
@@ -79,7 +80,7 @@ class _SiswaItemState extends State<SiswaItem> {
                         return AlertDialog(
                           title: const Text("Konfirmasi"),
                           content: const Text(
-                            "Yakin ingin menghapus kategori ini?",
+                            "Yakin ingin menghapus data ini?",
                           ),
                           actions: <Widget>[
                             TextButton(
@@ -105,17 +106,7 @@ class _SiswaItemState extends State<SiswaItem> {
                     );
                   }
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: BoxDecoration(
-                    color: widget.data.id != 0 ? AppColors.red : Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.delete, color: AppColors.white)],
-                  ),
-                ),
+                child: Icon(Icons.highlight_remove_sharp, color: AppColors.red),
               ),
             ],
           ),

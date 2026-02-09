@@ -55,12 +55,13 @@ extension SiswaEventPatterns on SiswaEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Fetch value)?  fetch,TResult Function( _LoadMore value)?  loadMore,TResult Function( _AddSiswa value)?  addSiswa,TResult Function( _DeleteSiswa value)?  deleteSiswa,TResult Function( _UpdateSiswa value)?  updateSiswa,TResult Function( _SearchSiswa value)?  searchSiswa,TResult Function( _LoadSiswa value)?  loadSiswa,TResult Function( _Refresh value)?  refresh,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Started value)?  started,TResult Function( _Fetch value)?  fetch,TResult Function( _ListSiswa value)?  listSiswa,TResult Function( _LoadMore value)?  loadMore,TResult Function( _AddSiswa value)?  addSiswa,TResult Function( _DeleteSiswa value)?  deleteSiswa,TResult Function( _UpdateSiswa value)?  updateSiswa,TResult Function( _SearchSiswa value)?  searchSiswa,TResult Function( _LoadSiswa value)?  loadSiswa,TResult Function( _Refresh value)?  refresh,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Fetch() when fetch != null:
-return fetch(_that);case _LoadMore() when loadMore != null:
+return fetch(_that);case _ListSiswa() when listSiswa != null:
+return listSiswa(_that);case _LoadMore() when loadMore != null:
 return loadMore(_that);case _AddSiswa() when addSiswa != null:
 return addSiswa(_that);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that);case _UpdateSiswa() when updateSiswa != null:
@@ -85,12 +86,13 @@ return refresh(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Fetch value)  fetch,required TResult Function( _LoadMore value)  loadMore,required TResult Function( _AddSiswa value)  addSiswa,required TResult Function( _DeleteSiswa value)  deleteSiswa,required TResult Function( _UpdateSiswa value)  updateSiswa,required TResult Function( _SearchSiswa value)  searchSiswa,required TResult Function( _LoadSiswa value)  loadSiswa,required TResult Function( _Refresh value)  refresh,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Started value)  started,required TResult Function( _Fetch value)  fetch,required TResult Function( _ListSiswa value)  listSiswa,required TResult Function( _LoadMore value)  loadMore,required TResult Function( _AddSiswa value)  addSiswa,required TResult Function( _DeleteSiswa value)  deleteSiswa,required TResult Function( _UpdateSiswa value)  updateSiswa,required TResult Function( _SearchSiswa value)  searchSiswa,required TResult Function( _LoadSiswa value)  loadSiswa,required TResult Function( _Refresh value)  refresh,}){
 final _that = this;
 switch (_that) {
 case _Started():
 return started(_that);case _Fetch():
-return fetch(_that);case _LoadMore():
+return fetch(_that);case _ListSiswa():
+return listSiswa(_that);case _LoadMore():
 return loadMore(_that);case _AddSiswa():
 return addSiswa(_that);case _DeleteSiswa():
 return deleteSiswa(_that);case _UpdateSiswa():
@@ -114,12 +116,13 @@ return refresh(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Fetch value)?  fetch,TResult? Function( _LoadMore value)?  loadMore,TResult? Function( _AddSiswa value)?  addSiswa,TResult? Function( _DeleteSiswa value)?  deleteSiswa,TResult? Function( _UpdateSiswa value)?  updateSiswa,TResult? Function( _SearchSiswa value)?  searchSiswa,TResult? Function( _LoadSiswa value)?  loadSiswa,TResult? Function( _Refresh value)?  refresh,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Started value)?  started,TResult? Function( _Fetch value)?  fetch,TResult? Function( _ListSiswa value)?  listSiswa,TResult? Function( _LoadMore value)?  loadMore,TResult? Function( _AddSiswa value)?  addSiswa,TResult? Function( _DeleteSiswa value)?  deleteSiswa,TResult? Function( _UpdateSiswa value)?  updateSiswa,TResult? Function( _SearchSiswa value)?  searchSiswa,TResult? Function( _LoadSiswa value)?  loadSiswa,TResult? Function( _Refresh value)?  refresh,}){
 final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started(_that);case _Fetch() when fetch != null:
-return fetch(_that);case _LoadMore() when loadMore != null:
+return fetch(_that);case _ListSiswa() when listSiswa != null:
+return listSiswa(_that);case _LoadMore() when loadMore != null:
 return loadMore(_that);case _AddSiswa() when addSiswa != null:
 return addSiswa(_that);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that);case _UpdateSiswa() when updateSiswa != null:
@@ -143,11 +146,12 @@ return refresh(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String? search)?  fetch,TResult Function()?  loadMore,TResult Function( SiswaRequestModel siswa)?  addSiswa,TResult Function( int id)?  deleteSiswa,TResult Function( Siswa siswa)?  updateSiswa,TResult Function( String query)?  searchSiswa,TResult Function()?  loadSiswa,TResult Function()?  refresh,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String? search)?  fetch,TResult Function( String search)?  listSiswa,TResult Function()?  loadMore,TResult Function( SiswaRequestModel siswa)?  addSiswa,TResult Function( int id)?  deleteSiswa,TResult Function( Siswa siswa)?  updateSiswa,TResult Function( String query)?  searchSiswa,TResult Function()?  loadSiswa,TResult Function()?  refresh,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Fetch() when fetch != null:
-return fetch(_that.search);case _LoadMore() when loadMore != null:
+return fetch(_that.search);case _ListSiswa() when listSiswa != null:
+return listSiswa(_that.search);case _LoadMore() when loadMore != null:
 return loadMore();case _AddSiswa() when addSiswa != null:
 return addSiswa(_that.siswa);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that.id);case _UpdateSiswa() when updateSiswa != null:
@@ -172,11 +176,12 @@ return refresh();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String? search)  fetch,required TResult Function()  loadMore,required TResult Function( SiswaRequestModel siswa)  addSiswa,required TResult Function( int id)  deleteSiswa,required TResult Function( Siswa siswa)  updateSiswa,required TResult Function( String query)  searchSiswa,required TResult Function()  loadSiswa,required TResult Function()  refresh,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String? search)  fetch,required TResult Function( String search)  listSiswa,required TResult Function()  loadMore,required TResult Function( SiswaRequestModel siswa)  addSiswa,required TResult Function( int id)  deleteSiswa,required TResult Function( Siswa siswa)  updateSiswa,required TResult Function( String query)  searchSiswa,required TResult Function()  loadSiswa,required TResult Function()  refresh,}) {final _that = this;
 switch (_that) {
 case _Started():
 return started();case _Fetch():
-return fetch(_that.search);case _LoadMore():
+return fetch(_that.search);case _ListSiswa():
+return listSiswa(_that.search);case _LoadMore():
 return loadMore();case _AddSiswa():
 return addSiswa(_that.siswa);case _DeleteSiswa():
 return deleteSiswa(_that.id);case _UpdateSiswa():
@@ -200,11 +205,12 @@ return refresh();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String? search)?  fetch,TResult? Function()?  loadMore,TResult? Function( SiswaRequestModel siswa)?  addSiswa,TResult? Function( int id)?  deleteSiswa,TResult? Function( Siswa siswa)?  updateSiswa,TResult? Function( String query)?  searchSiswa,TResult? Function()?  loadSiswa,TResult? Function()?  refresh,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String? search)?  fetch,TResult? Function( String search)?  listSiswa,TResult? Function()?  loadMore,TResult? Function( SiswaRequestModel siswa)?  addSiswa,TResult? Function( int id)?  deleteSiswa,TResult? Function( Siswa siswa)?  updateSiswa,TResult? Function( String query)?  searchSiswa,TResult? Function()?  loadSiswa,TResult? Function()?  refresh,}) {final _that = this;
 switch (_that) {
 case _Started() when started != null:
 return started();case _Fetch() when fetch != null:
-return fetch(_that.search);case _LoadMore() when loadMore != null:
+return fetch(_that.search);case _ListSiswa() when listSiswa != null:
+return listSiswa(_that.search);case _LoadMore() when loadMore != null:
 return loadMore();case _AddSiswa() when addSiswa != null:
 return addSiswa(_that.siswa);case _DeleteSiswa() when deleteSiswa != null:
 return deleteSiswa(_that.id);case _UpdateSiswa() when updateSiswa != null:
@@ -311,6 +317,72 @@ class __$FetchCopyWithImpl<$Res>
   return _then(_Fetch(
 search: freezed == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _ListSiswa implements SiswaEvent {
+  const _ListSiswa(this.search);
+  
+
+ final  String search;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ListSiswaCopyWith<_ListSiswa> get copyWith => __$ListSiswaCopyWithImpl<_ListSiswa>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListSiswa&&(identical(other.search, search) || other.search == search));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,search);
+
+@override
+String toString() {
+  return 'SiswaEvent.listSiswa(search: $search)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ListSiswaCopyWith<$Res> implements $SiswaEventCopyWith<$Res> {
+  factory _$ListSiswaCopyWith(_ListSiswa value, $Res Function(_ListSiswa) _then) = __$ListSiswaCopyWithImpl;
+@useResult
+$Res call({
+ String search
+});
+
+
+
+
+}
+/// @nodoc
+class __$ListSiswaCopyWithImpl<$Res>
+    implements _$ListSiswaCopyWith<$Res> {
+  __$ListSiswaCopyWithImpl(this._self, this._then);
+
+  final _ListSiswa _self;
+  final $Res Function(_ListSiswa) _then;
+
+/// Create a copy of SiswaEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? search = null,}) {
+  return _then(_ListSiswa(
+null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

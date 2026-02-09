@@ -4,6 +4,7 @@ part of 'siswa_bloc.dart';
 class SiswaEvent with _$SiswaEvent {
   const factory SiswaEvent.started() = _Started;
   const factory SiswaEvent.fetch({String? search}) = _Fetch;
+  const factory SiswaEvent.listSiswa(String search) = _ListSiswa;
   const factory SiswaEvent.loadMore() = _LoadMore;
   const factory SiswaEvent.addSiswa(SiswaRequestModel siswa) = _AddSiswa;
   const factory SiswaEvent.deleteSiswa(int id) = _DeleteSiswa;

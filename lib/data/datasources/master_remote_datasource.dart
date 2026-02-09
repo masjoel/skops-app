@@ -109,6 +109,26 @@ class MasterRemoteDatasource {
     }
   }
 
+  Future<Either<String, SiswaResponseModel>> searchSiswa(String query) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.get(
+      Uri.parse('${Variables.baseUrl}/api/v1/siswa-list?search=$query'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return Right(SiswaResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
   // Future<Either<String, SiswaResponseModel>> searchSiswa(String query) async {
   //   final authData = await AuthLocalDatasource().getAuthData();
   //   final headers = {
@@ -421,25 +441,11 @@ class MasterRemoteDatasource {
       'Authorization': 'Bearer ${authData.token}',
     };
 
-    // DEBUG: Print request details
-    // final requestBody = jsonEncode(data.toMap());
-    // print('===== SKOR UPDATE DEBUG =====');
-    // print('URL: ${Variables.baseUrl}/api/v1/skor/${data.id}');
-    // print('Request Body: $requestBody');
-    // print('Data Object: ${data.toJson()}');
-
     final response = await http.put(
       Uri.parse('${Variables.baseUrl}/api/v1/skor/${data.id}'),
       headers: headers,
-      // body: requestBody,
       body: jsonEncode(data.toMap()),
     );
-
-    // DEBUG: Print response details
-    // print('Response Status: ${response.statusCode}');
-    // print('Response Body: ${response.body}');
-    // print('===== END DEBUG =====');
-
     if (response.statusCode == 200) {
       return Right(SkorMasterResponseModel.fromJson(response.body));
     } else {

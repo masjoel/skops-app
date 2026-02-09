@@ -5,6 +5,7 @@ import 'package:webview_skops/default/size_config.dart';
 import 'package:webview_skops/dummy_page.dart';
 import 'package:webview_skops/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_skops/presentation/kontrol/pages/kontrol_page.dart';
 import 'package:webview_skops/presentation/master/pages/master_page.dart';
 import 'package:webview_skops/presentation/setting/pages/setting_page.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -14,7 +15,7 @@ class CustomBottomNavbar extends StatelessWidget {
     initialIndex: 0,
   );
   List<Widget> _buildScreens() {
-    return [HomePage(), MasterPage(), DummyPage(), DummyPage(), SettingPage()];
+    return [HomePage(), MasterPage(), KontrolPage(), DummyPage(), SettingPage()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {

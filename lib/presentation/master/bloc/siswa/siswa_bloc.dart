@@ -108,5 +108,12 @@ class SiswaBloc extends Bloc<SiswaEvent, SiswaState> {
         (r) => emit(SiswaSukses(r.data.siswa)),
       );
     });
+    on<_ListSiswa>((event, emit) async {
+      emit(const SiswaLoading());
+      final response = await masterRemoteDatasource.searchSiswa(event.search);
+      response.fold((l) => emit(SiswaError(l)), (r) {
+        emit(SiswaSukses(r.data.siswa));
+      });
+    });
   }
 }

@@ -4,10 +4,7 @@ class SiswaResponseModel {
   final String message;
   final DataSiswa data;
 
-  SiswaResponseModel({
-    required this.message,
-    required this.data,
-  });
+  SiswaResponseModel({required this.message, required this.data});
 
   factory SiswaResponseModel.fromJson(String str) =>
       SiswaResponseModel.fromMap(json.decode(str));
@@ -36,28 +33,57 @@ class DataSiswa {
     required this.perPage,
   });
 
-  factory DataSiswa.empty() => DataSiswa(
-        siswa: [],
+  factory DataSiswa.empty() =>
+      DataSiswa(siswa: [], currentPage: 1, lastPage: 1, total: 0, perPage: 20);
+
+  factory DataSiswa.fromMap(Map<String, dynamic> json) {
+    final pagination = json["siswa"];
+
+    // return DataSiswa(
+    //   siswa: pagination == null
+    //       ? []
+    //       : List<Siswa>.from(
+    //           pagination["data"].map((x) => Siswa.fromMap(x)),
+    //         ),
+    //   currentPage: pagination?["current_page"] ?? 1,
+    //   lastPage: pagination?["last_page"] ?? 1,
+    //   total: pagination?["total"] ?? 0,
+    //   perPage: pagination?["per_page"] ?? 20,
+    // );
+    if (pagination == null) {
+      return DataSiswa(
+        siswa: json["data"] != null
+            ? List<Siswa>.from(json["data"].map((x) => Siswa.fromMap(x)))
+            : [],
         currentPage: 1,
         lastPage: 1,
         total: 0,
         perPage: 20,
       );
+    }
+    if (pagination is Map && pagination["data"] != null) {
+      return DataSiswa(
+        siswa: List<Siswa>.from(
+          pagination["data"].map((x) => Siswa.fromMap(x)),
+        ),
+        currentPage: pagination["current_page"] ?? 1,
+        lastPage: pagination["last_page"] ?? 1,
+        total: pagination["total"] ?? 0,
+        perPage: pagination["per_page"] ?? 20,
+      );
+    }
 
-  factory DataSiswa.fromMap(Map<String, dynamic> json) {
-    final pagination = json["siswa"];
+    if (pagination is List) {
+      return DataSiswa(
+        siswa: List<Siswa>.from(pagination.map((x) => Siswa.fromMap(x))),
+        currentPage: 1,
+        lastPage: 1,
+        total: pagination.length,
+        perPage: pagination.length,
+      );
+    }
 
-    return DataSiswa(
-      siswa: pagination == null
-          ? []
-          : List<Siswa>.from(
-              pagination["data"].map((x) => Siswa.fromMap(x)),
-            ),
-      currentPage: pagination?["current_page"] ?? 1,
-      lastPage: pagination?["last_page"] ?? 1,
-      total: pagination?["total"] ?? 0,
-      perPage: pagination?["per_page"] ?? 20,
-    );
+    return DataSiswa.empty();
   }
 }
 
@@ -97,38 +123,38 @@ class Siswa {
   });
 
   factory Siswa.fromMap(Map<String, dynamic> json) => Siswa(
-        id: json["id"] ?? 0,
-        iduser: json["iduser"] ?? 0,
-        nis: json["nis"] ?? "",
-        nisn: json["nisn"] ?? "",
-        nama: json["nama"] ?? "",
-        username: json["username"],
-        kelas: json["kelas"] ?? "",
-        ext: json["ext"] ?? "",
-        jurusan: json["jurusan"] ?? "",
-        alamat: json["alamat"],
-        kota: json["kota"],
-        hp: json["hp"],
-        email: json["email"],
-        photo: json["photo"],
-        ket: json["ket"],
-      );
+    id: json["id"] ?? 0,
+    iduser: json["iduser"] ?? 0,
+    nis: json["nis"] ?? "",
+    nisn: json["nisn"] ?? "",
+    nama: json["nama"] ?? "",
+    username: json["username"],
+    kelas: json["kelas"] ?? "",
+    ext: json["ext"] ?? "",
+    jurusan: json["jurusan"] ?? "",
+    alamat: json["alamat"],
+    kota: json["kota"],
+    hp: json["hp"],
+    email: json["email"],
+    photo: json["photo"],
+    ket: json["ket"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "iduser": iduser,
-        "nis": nis,
-        "nisn": nisn,
-        "nama": nama,
-        "username": username,
-        "kelas": kelas,
-        "ext": ext,
-        "jurusan": jurusan,
-        "alamat": alamat,
-        "kota": kota,
-        "hp": hp,
-        "email": email,
-        "photo": photo,
-        "ket": ket,
-      };
+    "id": id,
+    "iduser": iduser,
+    "nis": nis,
+    "nisn": nisn,
+    "nama": nama,
+    "username": username,
+    "kelas": kelas,
+    "ext": ext,
+    "jurusan": jurusan,
+    "alamat": alamat,
+    "kota": kota,
+    "hp": hp,
+    "email": email,
+    "photo": photo,
+    "ket": ket,
+  };
 }

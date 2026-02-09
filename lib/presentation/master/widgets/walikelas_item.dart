@@ -40,6 +40,7 @@ class _WalikelasItemState extends State<WalikelasItem> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: GestureDetector(
@@ -85,7 +86,7 @@ class _WalikelasItemState extends State<WalikelasItem> {
                         return AlertDialog(
                           title: const Text("Konfirmasi"),
                           content: const Text(
-                            "Yakin ingin menghapus kategori ini?",
+                            "Yakin ingin menghapus data ini?",
                           ),
                           actions: <Widget>[
                             TextButton(
@@ -96,30 +97,10 @@ class _WalikelasItemState extends State<WalikelasItem> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                Navigator.pop(context);
                                 final bloc = context.read<WalikelasBloc>();
-                                final subscription = bloc.stream.listen((
-                                  state,
-                                ) {
-                                  if (state is WalikelasSukses) {
-                                    bloc.add(
-                                      const WalikelasEvent.loadWalikelas(),
-                                    );
-                                  }
-                                });
-
-                                bloc.add(
-                                  WalikelasEvent.deleteWalikelas(
-                                    widget.data.id,
-                                  ),
-                                );
-
-                                Future.delayed(
-                                  const Duration(milliseconds: 500),
-                                  () {
-                                    subscription.cancel();
-                                  },
-                                );
+                                bloc.add(WalikelasEvent.deleteWalikelas(widget.data.id));
+                                bloc.add(const WalikelasEvent.loadWalikelas());
+                                Navigator.pop(context);
                               },
                               child: const Text("Hapus"),
                             ),
@@ -129,17 +110,7 @@ class _WalikelasItemState extends State<WalikelasItem> {
                     );
                   }
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: BoxDecoration(
-                    color: widget.data.id != 0 ? AppColors.red : Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.delete, color: AppColors.white)],
-                  ),
-                ),
+                child: Icon(Icons.highlight_remove_sharp, color: AppColors.red),
               ),
             ],
           ),
@@ -148,9 +119,30 @@ class _WalikelasItemState extends State<WalikelasItem> {
             'Kelas ${widget.data.kelas} ${widget.data.ext} ${widget.data.jurusan}',
           ),
           SpaceHeight(8),
-          Text(
-            'Tahun ${widget.data.tahun}',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Container(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            decoration: BoxDecoration(
+              color: Colors.green,
+              borderRadius: BorderRadius.circular(4.0),
+              border: Border.all(color: Colors.green, width: 0.5),
+              boxShadow: List.filled(
+                1,
+                BoxShadow(
+                  offset: const Offset(0, 1),
+                  blurRadius: 0.0,
+                  blurStyle: BlurStyle.outer,
+                  spreadRadius: 1,
+                  color: Colors.black.withOpacity(0.1),
+                ),
+              ),
+            ),
+            child: Text(
+              '${widget.data.tahun}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),

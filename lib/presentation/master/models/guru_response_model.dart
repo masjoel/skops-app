@@ -39,12 +39,7 @@ class DataGuru {
   factory DataGuru.fromMap(Map<String, dynamic> json) {
     final pagination = json["guru"];
 
-    // Handle two cases:
-    // 1. Paginated response from /api/v1/guru (has "data" inside "guru")
-    // 2. Simple list from /api/v1/guru-list (no pagination, maybe direct array)
-    
     if (pagination == null) {
-      // Case: guru-list might return data directly without "guru" wrapper
       return DataGuru(
         guru: json["data"] != null 
             ? List<Guru>.from(json["data"].map((x) => Guru.fromMap(x)))
@@ -56,7 +51,6 @@ class DataGuru {
       );
     }
     
-    // Check if pagination has "data" field (paginated response)
     if (pagination is Map && pagination["data"] != null) {
       return DataGuru(
         guru: List<Guru>.from(pagination["data"].map((x) => Guru.fromMap(x))),
@@ -67,7 +61,6 @@ class DataGuru {
       );
     }
     
-    // Case: guru might be a direct array (from guru-list)
     if (pagination is List) {
       return DataGuru(
         guru: List<Guru>.from(pagination.map((x) => Guru.fromMap(x))),
@@ -78,7 +71,6 @@ class DataGuru {
       );
     }
     
-    // Fallback to empty
     return DataGuru.empty();
   }
 }

@@ -25,6 +25,8 @@ class EditWalikelasPage extends StatefulWidget {
 }
 
 class _EditWalikelasPageState extends State<EditWalikelasPage> {
+  late TextEditingController guruController;
+  late TextEditingController guruIdController;
   late TextEditingController tahunController;
   bool _hasPopped = false;
   Guru? selectGuru;
@@ -34,6 +36,8 @@ class _EditWalikelasPageState extends State<EditWalikelasPage> {
 
   @override
   void initState() {
+    guruController = TextEditingController(text: widget.data.nama);
+    guruIdController = TextEditingController(text: widget.data.idguru.toString());
     tahunController = TextEditingController(text: widget.data.tahun);
     context.read<GuruBloc>().add(const GuruEvent.listGuru('Aktif'));
     context.read<KelasBloc>().add(const KelasEvent.fetch());
@@ -44,6 +48,8 @@ class _EditWalikelasPageState extends State<EditWalikelasPage> {
 
   @override
   void dispose() {
+    guruController.dispose();
+    guruIdController.dispose();
     tahunController.dispose();
     super.dispose();
   }
@@ -64,36 +70,48 @@ class _EditWalikelasPageState extends State<EditWalikelasPage> {
         child: ListView(
           padding: const EdgeInsets.all(24.0),
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: BlocConsumer<GuruBloc, GuruState>(
-                    listener: (context, state) {
-                      if (state is GuruSukses) {
-                        selectGuru = state.guru.firstWhere(
-                          (cat) => cat.id == widget.data.idguru,
-                        );
-                      }
-                    },
-                    builder: (context, state) {
-                      switch (state) {
-                        case GuruInitial():
-                          return const Text('jurusan tidak ada');
-                        case GuruLoading():
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        case GuruSukses():
-                          return buildGuruDropdown(state.guru);
-                        case Error():
-                          return Text('Belum ada data');
-                      }
-                      return SizedBox.shrink();
-                    },
-                  ),
+            TextField(
+              controller: guruController,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
-              ],
+                labelText: 'Wali Kelas',
+                suffixIcon: Icon(Icons.search),
+              ),
+              readOnly: true,
+              onTap: () => _showGuruSearchDialog(context),
             ),
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: BlocConsumer<GuruBloc, GuruState>(
+            //         listener: (context, state) {
+            //           if (state is GuruSukses) {
+            //             selectGuru = state.guru.firstWhere(
+            //               (cat) => cat.id == widget.data.idguru,
+            //             );
+            //           }
+            //         },
+            //         builder: (context, state) {
+            //           switch (state) {
+            //             case GuruInitial():
+            //               return const Text('Guru tidak ada');
+            //             case GuruLoading():
+            //               return const Center(
+            //                 child: CircularProgressIndicator(),
+            //               );
+            //             case GuruSukses():
+            //               return buildGuruDropdown(state.guru);
+            //             case Error():
+            //               return Text('Belum ada data');
+            //           }
+            //           return SizedBox.shrink();
+            //         },
+            //       ),
+            //     ),
+            //   ],
+            // ),
             const SpaceHeight(8.0),
             TextField(
               controller: tahunController,
@@ -266,7 +284,7 @@ class _EditWalikelasPageState extends State<EditWalikelasPage> {
                         Walikelas(
                           id: widget.data.id,
                           iduser: widget.data.iduser,
-                          idguru: selectGuru!.id,
+                          idguru: guruIdController.text.toIntegerFromText,
                           photo: widget.data.photo,
                           ket: widget.data.ket,
                           nama: widget.data.nama,
@@ -380,6 +398,132 @@ class _EditWalikelasPageState extends State<EditWalikelasPage> {
         setState(() {
           selectGuru = value;
         });
+      },
+    );
+  }
+
+  void _showGuruSearchDialog(BuildContext context) {
+    final TextEditingController searchController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return BlocProvider.value(
+          value: context.read<GuruBloc>(),
+          child: StatefulBuilder(
+            builder: (context, setState) {
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Cari Guru',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SpaceHeight(16.0),
+                      TextField(
+                        controller: searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Cari nama guru...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          context.read<GuruBloc>().add(
+                            GuruEvent.listGuru(value),
+                          );
+                        },
+                      ),
+                      const SpaceHeight(16.0),
+                      Expanded(
+                        child: BlocBuilder<GuruBloc, GuruState>(
+                          builder: (context, state) {
+                            if (state is GuruLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+                            if (state is GuruSukses) {
+                              final teachers = state.guru;
+
+                              if (teachers.isEmpty) {
+                                return const Center(
+                                  child: Text('Tidak ada guru ditemukan'),
+                                );
+                              }
+
+                              return ListView.separated(
+                                itemCount: teachers.length,
+                                separatorBuilder: (context, index) =>
+                                    const Divider(),
+                                itemBuilder: (context, index) {
+                                  final guru = teachers[index];
+                                  return ListTile(
+                                    title: Text(
+                                      guru.nama,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      'Kelas: ${guru.kelas} ${guru.ext} ${guru.jurusan}',
+                                    ),
+                                    onTap: () {
+                                      this.setState(() {
+                                        selectGuru = guru;
+                                        guruController.text = guru.nama;
+                                        guruIdController.text = guru.id
+                                            .toString();
+                                      });
+
+                                      Navigator.pop(dialogContext);
+                                    },
+                                  );
+                                },
+                              );
+                            }
+
+                            if (state is GuruError) {
+                              return Center(
+                                child: Text(
+                                  state.message,
+                                  style: const TextStyle(color: AppColors.red),
+                                ),
+                              );
+                            }
+
+                            return const Center(child: Text('Mulai cari guru'));
+                          },
+                        ),
+                      ),
+                      const SpaceHeight(16.0),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Button.outlined(
+                          onPressed: () => Navigator.pop(dialogContext),
+                          label: 'Batal',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
       },
     );
   }

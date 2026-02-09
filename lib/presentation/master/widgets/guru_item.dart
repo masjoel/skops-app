@@ -40,6 +40,7 @@ class _GuruItemState extends State<GuruItem> {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
                 child: GestureDetector(
@@ -83,7 +84,7 @@ class _GuruItemState extends State<GuruItem> {
                         return AlertDialog(
                           title: const Text("Konfirmasi"),
                           content: const Text(
-                            "Yakin ingin menghapus kategori ini?",
+                            "Yakin ingin menghapus data ini?",
                           ),
                           actions: <Widget>[
                             TextButton(
@@ -107,17 +108,7 @@ class _GuruItemState extends State<GuruItem> {
                     );
                   }
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(2.0),
-                  decoration: BoxDecoration(
-                    color: widget.data.id != 0 ? AppColors.red : Colors.grey,
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Icon(Icons.delete, color: AppColors.white)],
-                  ),
-                ),
+                child: Icon(Icons.highlight_remove_sharp, color: AppColors.red),
               ),
             ],
           ),
@@ -137,9 +128,30 @@ class _GuruItemState extends State<GuruItem> {
                   Text(widget.data.nis),
                 ],
               ),
-              Text(
-                widget.data.status,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              Container(
+                padding: const EdgeInsets.fromLTRB(8,1,8,1),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(4.0),
+                  border: Border.all(color: Colors.orange, width: 0.5),
+                  boxShadow: List.filled(
+                    1,
+                    BoxShadow(
+                      offset: const Offset(0, 1),
+                      blurRadius: 0.0,
+                      blurStyle: BlurStyle.outer,
+                      spreadRadius: 1,
+                      color: Colors.black.withOpacity(0.1),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  widget.data.status,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ],
           ),
