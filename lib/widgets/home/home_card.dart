@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 
 import '../../data/datasources/dash_remote_datasource.dart';
 import '../../data/models/response/dash_totalpoin_response_model.dart';
@@ -42,8 +43,7 @@ class _HomeCardState extends State<HomeCard> {
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
       color: Colors.white,
-      child: 
-      GridView.count(
+      child: GridView.count(
         padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
         crossAxisCount: 2,
         shrinkWrap: true,
@@ -55,24 +55,28 @@ class _HomeCardState extends State<HomeCard> {
           cardWidget(
             color: const Color(0xFF00C0EF),
             title: "Guru",
+            masterTabIndex: 2,
             value: totalPoin?.jGuru.toString() ?? "0",
             icon: Icons.person_add,
           ),
           cardWidget(
             color: const Color(0xFFF39C12),
             title: "Siswa",
+            masterTabIndex: 1, 
             value: totalPoin?.jSiswa.toString() ?? "0",
             icon: Icons.groups,
           ),
           cardWidget(
             color: const Color(0xFF00A65A),
             title: "Wali Kelas",
+            masterTabIndex: 3,
             value: totalPoin?.jWaliKelas.toString() ?? "0",
             icon: Icons.person_search,
           ),
           cardWidget(
             color: const Color(0xFFDD4B39),
             title: "Jenis Poin",
+            masterTabIndex: 0,
             value: totalPoin?.jJenis.toString() ?? "0",
             icon: Icons.bar_chart,
           ),
@@ -85,6 +89,7 @@ class _HomeCardState extends State<HomeCard> {
     required Color color,
     required String title,
     required String value,
+    required int masterTabIndex,
     required IconData icon,
   }) {
     return Container(
@@ -147,12 +152,22 @@ class _HomeCardState extends State<HomeCard> {
               ),
             ),
             alignment: Alignment.center,
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("More info", style: TextStyle(color: Colors.white)),
-                SizedBox(width: 6),
-                Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                InkWell(
+                  onTap: () {
+                    final provider = TabControllerProvider.of(context);
+                    provider?.controller.jumpToTab(1);
+                    provider?.masterTabIndex.value = masterTabIndex;
+                  },
+                  child: const Text(
+                    "More info",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                const Icon(Icons.arrow_forward, color: Colors.white, size: 18),
               ],
             ),
           ),

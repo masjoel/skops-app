@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_skops/core/components/spaces.dart';
+import 'package:webview_skops/core/constants/string_extension.dart';
+import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/default/size_config.dart';
-import 'package:webview_skops/presentation/home/bloc/top10_poin_siswa/top10_poin_siswa_bloc.dart';
 
 import '../../data/models/response/top10_skor_response_model.dart';
 import '../../presentation/home/bloc/top10_skor/top10_skor_bloc.dart';
@@ -59,12 +60,21 @@ class _TopSkorState extends State<TopSkor> {
                   ),
                 ],
               ),
-              Text(
-                'Lihat Semua',
-                style: GoogleFonts.poppins(
-                  color: Colors.blue,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+              InkWell(
+                onTap: () {
+                  final provider = TabControllerProvider.of(context);
+                  provider?.controller.jumpToTab(
+                    3,
+                  ); 
+                },
+
+                child: Text(
+                  'Lihat Semua',
+                  style: GoogleFonts.poppins(
+                    color: Colors.blue,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+                  ),
                 ),
               ),
             ],
@@ -112,26 +122,135 @@ class _TopSkorState extends State<TopSkor> {
                               ),
                               textAlign: TextAlign.start,
                             ),
-                            Text(
-                              'Jumlah Siswa: ${state.top10skor[index].jumlah}',
-                            ),
+                            SpaceHeight(8.0),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Skor: ${state.top10skor[index].skor}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                Text('Jumlah Siswa : '),
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8.0,
+                                    1.0,
+                                    8.0,
+                                    1.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 0.5,
+                                    ),
+                                    boxShadow: List.filled(
+                                      1,
+                                      BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 0.0,
+                                        blurStyle: BlurStyle.outer,
+                                        spreadRadius: 1,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    state.top10skor[index].jumlah.toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                    ),
                                   ),
                                 ),
-                                Text(
-                                  state.top10skor[index].tipe,
-                                  style: TextStyle(
+                              ],
+                            ),
+                            SpaceHeight(8.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8.0,
+                                    1.0,
+                                    8.0,
+                                    1.0,
+                                  ),
+                                  decoration: BoxDecoration(
                                     color:
                                         state.top10skor[index].tipe == 'reward'
-                                        ? Colors.green
-                                        : Colors.red,
-                                    fontWeight: FontWeight.bold,
+                                        ? Colors.green.shade700
+                                        : Colors.orange,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    border: Border.all(
+                                      color:
+                                          state.top10skor[index].tipe ==
+                                              'reward'
+                                          ? Colors.green.shade700
+                                          : Colors.orange,
+                                      width: 0.5,
+                                    ),
+                                    boxShadow: List.filled(
+                                      1,
+                                      BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 0.0,
+                                        blurStyle: BlurStyle.outer,
+                                        spreadRadius: 1,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Skor : ${state.top10skor[index].skor}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8.0,
+                                    1.0,
+                                    8.0,
+                                    1.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        state.top10skor[index].tipe == 'reward'
+                                        ? Colors.green.shade700
+                                        : Colors.orange,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    border: Border.all(
+                                      color:
+                                          state.top10skor[index].tipe ==
+                                              'reward'
+                                          ? Colors.green.shade700
+                                          : Colors.orange,
+                                      width: 0.5,
+                                    ),
+                                    boxShadow: List.filled(
+                                      1,
+                                      BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 0.0,
+                                        blurStyle: BlurStyle.outer,
+                                        spreadRadius: 1,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        state.top10skor[index].tipe
+                                            .toTitleCase(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

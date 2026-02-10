@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:webview_skops/core/components/spaces.dart';
-import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/core/constants/string_extension.dart';
-import 'package:webview_skops/presentation/master/bloc/skor/skor_bloc.dart';
-import 'package:webview_skops/presentation/master/models/skor_master_response_model.dart';
-import 'package:webview_skops/presentation/master/pages/skor_edit_page.dart';
+import 'package:webview_skops/presentation/rekap/models/rekap_detail_response_model.dart';
 
-class SkorItem extends StatefulWidget {
-  final Skor data;
-  const SkorItem({super.key, required this.data});
+class RekapDetailItem extends StatefulWidget {
+  final RekapDetailSingle data;
+
+  const RekapDetailItem({super.key, required this.data});
 
   @override
-  State<SkorItem> createState() => _SkorItemState();
+  State<RekapDetailItem> createState() => _RekapDetailItemState();
 }
 
-class _SkorItemState extends State<SkorItem> {
+class _RekapDetailItemState extends State<RekapDetailItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,79 +41,37 @@ class _SkorItemState extends State<SkorItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    final result =
-                        await PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: EditSkorPage(data: widget.data),
-                          withNavBar: false,
-                        );
-                    if (result == true && mounted) {
-                      context.read<SkorBloc>().add(const SkorEvent.fetch());
-                    }
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.data.jenis,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey.shade900,
-                        ),
-                        textAlign: TextAlign.start,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormat('EEEE, dd MMM yyyy').format(widget.data.tgl),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
                       ),
-                      SpaceHeight(1), // jarak underline
-                      Container(height: 1, width: 100, color: Colors.blue),
-                    ],
-                  ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
               SpaceWidth(8),
-              GestureDetector(
-                onTap: () async {
-                  if (widget.data.id != 0) {
-                    await showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Konfirmasi"),
-                          content: const Text(
-                            "Yakin ingin menghapus data ini?",
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: const Text("Batal"),
-                            ),
-                            TextButton(
-                              onPressed: () async {
-                                final bloc = context.read<SkorBloc>();
-                                bloc.add(SkorEvent.deleteSkor(widget.data.id));
-                                bloc.add(const SkorEvent.fetch());
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Hapus"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-                child: Icon(Icons.highlight_remove_sharp, color: AppColors.red),
+              Text(
+                'Semester: ${widget.data.semester}',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],
           ),
+          Container(height: 1, width: double.infinity, color: Colors.grey),
           const SpaceHeight(8.0),
-          Text('Keterangan : ${widget.data.deskripsi}'),
+          Text(widget.data.jenis, maxLines: 2, overflow: TextOverflow.ellipsis),
           const SpaceHeight(8.0),
-          Text('Tindakan : ${widget.data.tindakan}'),
+          widget.data.tindakan.isEmpty ? Container() : Text(
+            'Tindakan : ${widget.data.tindakan}',
+            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 12),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
           const SpaceHeight(8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,15 +105,6 @@ class _SkorItemState extends State<SkorItem> {
                   children: [
                     Text(
                       widget.data.tipe.toTitleCase(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      widget.data.kode == '-' || widget.data.kode == ''
-                          ? ''
-                          : ' (${widget.data.kode})',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -198,6 +144,31 @@ class _SkorItemState extends State<SkorItem> {
                     color: Colors.white,
                   ),
                 ),
+              ),
+            ],
+          ),
+          SpaceHeight(8.0),
+          Container(height: 1, width: double.infinity, color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      DateFormat('dd-MM-yyyy HH:mm').format(widget.data.jam),
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+              SpaceWidth(8),
+              Text(
+                'Opr: ${widget.data.nama}',
+                style: TextStyle(fontSize: 12),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

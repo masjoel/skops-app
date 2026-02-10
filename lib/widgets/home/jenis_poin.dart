@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_skops/core/components/spaces.dart';
+import 'package:webview_skops/core/constants/string_extension.dart';
+import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/presentation/master/models/skor_response_model.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:webview_skops/presentation/home/bloc/jenis_skor/jenis_skor_bloc.dart';
-
-import '../../data/models/response/top10_skor_response_model.dart';
-import '../../presentation/home/bloc/top10_skor/top10_skor_bloc.dart';
 
 class JenisPoin extends StatefulWidget {
   const JenisPoin({super.key});
@@ -60,12 +59,20 @@ class _JenisPoinState extends State<JenisPoin> {
                   ),
                 ],
               ),
-              Text(
-                'Lihat Semua',
-                style: GoogleFonts.poppins(
-                  color: Colors.blue,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+              InkWell(
+                onTap: () {
+                  final provider = TabControllerProvider.of(context);
+                  provider?.controller.jumpToTab(1);
+                  provider?.masterTabIndex.value = 0;
+                },
+
+                child: Text(
+                  'Lihat Semua',
+                  style: GoogleFonts.poppins(
+                    color: Colors.blue,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+                  ),
                 ),
               ),
             ],
@@ -106,35 +113,56 @@ class _JenisPoinState extends State<JenisPoin> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  state.jenisSkor[index].kode,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                            state.jenisSkor[index].kode.isEmpty
+                                ? Container()
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        padding: const EdgeInsets.all(4.0),
+                                        decoration: BoxDecoration(
+                                          color:
+                                              state.jenisSkor[index].tipe ==
+                                                  'reward'
+                                              ? Colors.green.shade700
+                                              : Colors.orange,
+                                          borderRadius: BorderRadius.circular(
+                                            4.0,
+                                          ),
+                                          border: Border.all(
+                                            color:
+                                                state.jenisSkor[index].tipe ==
+                                                    'reward'
+                                                ? Colors.green.shade700
+                                                : Colors.orange,
+                                            width: 0.5,
+                                          ),
+                                          boxShadow: List.filled(
+                                            1,
+                                            BoxShadow(
+                                              offset: const Offset(0, 1),
+                                              blurRadius: 0.0,
+                                              blurStyle: BlurStyle.outer,
+                                              spreadRadius: 1,
+                                              color: Colors.black.withOpacity(
+                                                0.1,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        child: Text(
+                                          state.jenisSkor[index].kode,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                Text(
-                                  state.jenisSkor[index].tipe,
-                                  style: TextStyle(
-                                    color:
-                                        state.jenisSkor[index].tipe == 'reward'
-                                        ? Colors.green
-                                        : Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
                             SpaceHeight(8.0),
                             Text(state.jenisSkor[index].jenis),
-                            Text(
-                              'Skor: ${state.jenisSkor[index].skor}',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
                             SpaceHeight(8.0),
                             Text(
                               'Keterangan: ${state.jenisSkor[index].deskripsi}',
@@ -142,6 +170,98 @@ class _JenisPoinState extends State<JenisPoin> {
                             SpaceHeight(8.0),
                             Text(
                               'Tindakan: ${state.jenisSkor[index].tindakan}',
+                            ),
+                            SpaceHeight(8.0),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8.0,
+                                    1.0,
+                                    8.0,
+                                    1.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        state.jenisSkor[index].tipe == 'reward'
+                                        ? Colors.green.shade700
+                                        : Colors.orange,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    border: Border.all(
+                                      color:
+                                          state.jenisSkor[index].tipe ==
+                                              'reward'
+                                          ? Colors.green.shade700
+                                          : Colors.orange,
+                                      width: 0.5,
+                                    ),
+                                    boxShadow: List.filled(
+                                      1,
+                                      BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 0.0,
+                                        blurStyle: BlurStyle.outer,
+                                        spreadRadius: 1,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        state.jenisSkor[index].tipe
+                                            .toTitleCase(),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    8.0,
+                                    1.0,
+                                    8.0,
+                                    1.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        state.jenisSkor[index].tipe == 'reward'
+                                        ? Colors.green.shade700
+                                        : Colors.orange,
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    border: Border.all(
+                                      color:
+                                          state.jenisSkor[index].tipe ==
+                                              'reward'
+                                          ? Colors.green.shade700
+                                          : Colors.orange,
+                                      width: 0.5,
+                                    ),
+                                    boxShadow: List.filled(
+                                      1,
+                                      BoxShadow(
+                                        offset: const Offset(0, 1),
+                                        blurRadius: 0.0,
+                                        blurStyle: BlurStyle.outer,
+                                        spreadRadius: 1,
+                                        color: Colors.black.withOpacity(0.1),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Skor : ${state.jenisSkor[index].skor}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

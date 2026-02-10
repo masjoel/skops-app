@@ -13,7 +13,7 @@ class KontrolBloc extends Bloc<KontrolEvent, KontrolState> {
   String _currentSearch = '';
 
   KontrolBloc(this.kontrolRemoteDs) : super(KontrolState.initial()) {
-        on<_LoadKontrol>((event, emit) async {
+    on<_LoadKontrol>((event, emit) async {
       emit(const KontrolState.loading());
       final result = await kontrolRemoteDs.getKontrol(
         page: 1,

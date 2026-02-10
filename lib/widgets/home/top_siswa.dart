@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_skops/core/components/spaces.dart';
+import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:webview_skops/presentation/home/bloc/top10_poin_siswa/top10_poin_siswa_bloc.dart';
 
@@ -58,12 +59,18 @@ class _TopSiswaState extends State<TopSiswa> {
                   ),
                 ],
               ),
-              Text(
-                'Lihat Semua',
-                style: GoogleFonts.poppins(
-                  color: Colors.blue,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+              InkWell(
+                onTap: () {
+                  final provider = TabControllerProvider.of(context);
+                  provider?.controller.jumpToTab(3); 
+                },
+                child: Text(
+                  'Lihat Semua',
+                  style: GoogleFonts.poppins(
+                    color: Colors.blue,
+                    // fontWeight: FontWeight.bold,
+                    fontSize: SizeConfig.safeBlockHorizontal * 12 / 3.6,
+                  ),
                 ),
               ),
             ],
@@ -110,13 +117,19 @@ class _TopSiswaState extends State<TopSiswa> {
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.start,
+                              maxLines: 2,
+                              // overflow: TextOverflow.ellipsis,
                             ),
                             // const SpaceHeight(8.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  'Kelas ${state.top10[index].kelas} ${state.top10[index].ext} ${state.top10[index].jurusan}',
+                                Expanded(
+                                  child: Text(
+                                    'Kelas ${state.top10[index].kelas} ${state.top10[index].ext} ${state.top10[index].jurusan}',
+                                    // maxLines: 2,
+                                    // overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                                 Text(
                                   '${state.top10[index].totSkor} Poin',

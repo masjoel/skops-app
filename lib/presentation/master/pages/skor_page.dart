@@ -59,29 +59,33 @@ class _SkorPageState extends State<SkorPage> {
         ),
       ),
       body: SafeArea(
-        child: BlocBuilder<SkorBloc, SkorState>(
-          builder: (context, state) {
-            switch (state) {
-              case SkorSuccess():
-                return ListView.separated(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 16,
-                    bottom: 100,
-                  ),
-
-                  // physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.skor.length,
-                  separatorBuilder: (context, index) => const SpaceHeight(16.0),
-                  itemBuilder: (context, index) =>
-                      SkorItem(data: state.skor[index]),
-                );
-              default:
-                return Center(child: const CircularProgressIndicator());
-            }
-          },
+        
+        child: Container(
+          color: Colors.grey[200],
+          child: BlocBuilder<SkorBloc, SkorState>(
+            builder: (context, state) {
+              switch (state) {
+                case SkorSuccess():
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 16,
+                      bottom: 100,
+                    ),
+          
+                    // physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.skor.length,
+                    separatorBuilder: (context, index) => const SpaceHeight(16.0),
+                    itemBuilder: (context, index) =>
+                        SkorItem(data: state.skor[index]),
+                  );
+                default:
+                  return Center(child: const CircularProgressIndicator());
+              }
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

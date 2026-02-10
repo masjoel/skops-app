@@ -118,15 +118,23 @@ class _KontrolItemState extends State<KontrolItem> {
               ),
             ],
           ),
-          const SpaceHeight(8.0),
-          Text(widget.data.jenis, maxLines: 1, overflow: TextOverflow.ellipsis),
-          const SpaceHeight(8.0),
+          // const SpaceHeight(8.0),
           Text(
-            'Tindakan : ${widget.data.tindakan}',
-            maxLines: 1,
+            'Kelas : ${widget.data.kelas} ${widget.data.ext} ${widget.data.jurusan}',
+            style: TextStyle(fontSize: 12),
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
           const SpaceHeight(8.0),
+          Text(widget.data.jenis, maxLines: 1, overflow: TextOverflow.ellipsis),
+          const SpaceHeight(8.0),
+          widget.data.tindakan.isEmpty
+              ? const SpaceHeight(0.0)
+              : Text(
+                  'Tindakan : ${widget.data.tindakan}',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
           const SpaceHeight(8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

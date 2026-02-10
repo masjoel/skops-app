@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:webview_skops/data/datasources/dash_remote_datasource.dart';
-import 'package:webview_skops/data/models/response/top10_poin_response_model.dart';
 import '../../../../data/models/response/top10_siswa_response_model.dart';
 part 'top10_poin_siswa_event.dart';
 part 'top10_poin_siswa_state.dart';

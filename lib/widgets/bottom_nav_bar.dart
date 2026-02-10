@@ -1,12 +1,13 @@
 import 'package:double_back_to_close/double_back_to_close.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/default/size_config.dart';
-import 'package:webview_skops/dummy_page.dart';
 import 'package:webview_skops/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:webview_skops/presentation/kontrol/pages/kontrol_page.dart';
 import 'package:webview_skops/presentation/master/pages/master_page.dart';
+import 'package:webview_skops/presentation/rekap/pages/rekap_page.dart';
 import 'package:webview_skops/presentation/setting/pages/setting_page.dart';
 // import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -14,8 +15,11 @@ class CustomBottomNavbar extends StatelessWidget {
   final PersistentTabController controller = PersistentTabController(
     initialIndex: 0,
   );
+  
+  final ValueNotifier<int?> masterTabIndex = ValueNotifier<int?>(null);
+  
   List<Widget> _buildScreens() {
-    return [HomePage(), MasterPage(), KontrolPage(), DummyPage(), SettingPage()];
+    return [HomePage(), MasterPage(), KontrolPage(), RekapPage(), SettingPage()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -80,34 +84,38 @@ class CustomBottomNavbar extends StatelessWidget {
       body: DoubleBack(
         message: "Tap lagi untuk keluar",
         textStyle: TextStyle(fontSize: 12, color: Colors.white),
-        child: PersistentTabView(
-          context,
-          padding: const EdgeInsets.all(8),
-          navBarHeight: SizeConfig.safeBlockHorizontal * 15,
+        child: TabControllerProvider(
           controller: controller,
-          screens: _buildScreens(),
-          items: _navBarsItems(),
-          confineToSafeArea: true,
-          backgroundColor: Colors.white, // Default is Colors.white.
-          handleAndroidBackButtonPress: true, // Default is true.
-          resizeToAvoidBottomInset:
-              true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-          stateManagement: true, // Default is true.
-          // hideNavigationBarWhenKeyboardShows:
-          //     true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-          decoration: NavBarDecoration(
-            border: Border.symmetric(
-              horizontal: BorderSide(color: Colors.blue.shade100),
+          masterTabIndex: masterTabIndex,
+          child: PersistentTabView(
+            context,
+            padding: const EdgeInsets.all(8),
+            navBarHeight: SizeConfig.safeBlockHorizontal * 15,
+            controller: controller,
+            screens: _buildScreens(),
+            items: _navBarsItems(),
+            confineToSafeArea: true,
+            backgroundColor: Colors.white, // Default is Colors.white.
+            handleAndroidBackButtonPress: true, // Default is true.
+            resizeToAvoidBottomInset:
+                true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+            stateManagement: true, // Default is true.
+            // hideNavigationBarWhenKeyboardShows:
+            //     true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+            decoration: NavBarDecoration(
+              border: Border.symmetric(
+                horizontal: BorderSide(color: Colors.blue.shade100),
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              colorBehindNavBar: Colors.white,
             ),
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-            colorBehindNavBar: Colors.white,
-          ),
 
-          navBarStyle: NavBarStyle
-              .style6, // Choose the nav bar style with this property.
+            navBarStyle: NavBarStyle
+                .style6, // Choose the nav bar style with this property.
+          ),
         ),
       ),
     );

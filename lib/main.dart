@@ -11,6 +11,8 @@ import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/skor/skor_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/walikelas/walikelas_bloc.dart';
+import 'package:webview_skops/presentation/rekap/bloc/rekap/rekap_bloc.dart';
+import 'package:webview_skops/presentation/rekap/bloc/rekap_detail/rekap_detail_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
@@ -47,6 +49,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => JurusanBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => SkorBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => KontrolBloc(KontrolRemoteDs())),
+        BlocProvider(create: (context) => RekapBloc(KontrolRemoteDs())),
+        BlocProvider(create: (context) => RekapDetailBloc(KontrolRemoteDs())),
       ],
       child: MaterialApp(
         title: 'SKOPS',
