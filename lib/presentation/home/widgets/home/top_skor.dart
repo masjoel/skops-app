@@ -6,8 +6,8 @@ import 'package:webview_skops/core/constants/string_extension.dart';
 import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/default/size_config.dart';
 
-import '../../data/models/response/top10_skor_response_model.dart';
-import '../../presentation/home/bloc/top10_skor/top10_skor_bloc.dart';
+import '../../../../data/models/response/top10_skor_response_model.dart';
+import '../../bloc/top10_skor/top10_skor_bloc.dart';
 
 class TopSkor extends StatefulWidget {
   const TopSkor({super.key});

@@ -7,6 +7,7 @@ import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:webview_skops/presentation/auth/pages/login_page.dart';
 import 'package:webview_skops/presentation/setting/pages/manage_kelas_page.dart';
+import 'package:webview_skops/presentation/profil/pages/profil_page.dart';
 import '../../../core/assets/assets.gen.dart';
 import '../../../core/components/menu_setting.dart';
 import '../../../core/components/spaces.dart';
@@ -59,7 +60,13 @@ class _SettingPageState extends State<SettingPage> {
                     iconPath: Assets.images.logo.path,
                     size: 32,
                     label: 'Profil',
-                    onPressed: () {},
+                    onPressed: () {
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: ProfilPage(),
+                        withNavBar: false,
+                      );
+                    },
                     isImage: true,
                   ),
                 ],
@@ -79,12 +86,6 @@ class _SettingPageState extends State<SettingPage> {
                         screen: const ManageKelasPage(),
                         withNavBar: false,
                       );
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const ManageKelasPage(),
-                      //   ),
-                      // );
                     },
                     isImage: true,
                   ),

@@ -1,13 +1,10 @@
 import 'dart:io';
-
-// import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:webview_skops/presentation/auth/bloc/login/login_bloc.dart';
-// import 'package:webview_skops/presentation/home/bloc/savedevice/savedevice_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_skops/splash_screen.dart';
 import '../../../core/assets/assets.gen.dart';
@@ -15,10 +12,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
 import '../../../core/constants/auth_service.dart';
 import '../../../data/models/request/login_request_model.dart';
-// import '../../home/pages/dashboard_page.dart';
 import '../../../default/custom_animation.dart';
-import '../../../default/size_config.dart';
-import '../../../widgets/bottom_nav_bar.dart';
 import 'register_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -35,18 +29,6 @@ class _LoginPageState extends State<LoginPage> {
   final namaUsahaController = TextEditingController();
   File? _savedImage;
   bool _isObscured = true;
-
-  // Future<String?> getDeviceId() async {
-  //   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  //   AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  //   if (!mounted) return null; // pastikan widget masih aktif
-
-  //   setState(() {
-  //     deviceIdController.text =
-  //         '${androidInfo.fingerprint}/SN.${androidInfo.serialNumber}';
-  //   });
-  //   return '${androidInfo.fingerprint}/SN.${androidInfo.serialNumber}';
-  // }
 
   @override
   void dispose() {
@@ -77,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    // getDeviceId();
+
     getProfil();
     _loadImageFromPrefs();
   }
@@ -172,14 +154,6 @@ class _LoginPageState extends State<LoginPage> {
                   AuthService().userID;
                 });
 
-                // if (authData.user.deviceId == '0') {
-                // ignore: use_build_context_synchronously
-                // context.read<SavedeviceBloc>().add(
-                //   SavedeviceEvent.savedeviceid(
-                //     email: usernameController.text,
-                //     deviceid: deviceIdController.text,
-                //   ),
-                // );
                 await AuthLocalDatasource().saveProfilUsaha(
                   'password',
                   passwordController.text,
@@ -193,45 +167,14 @@ class _LoginPageState extends State<LoginPage> {
                   DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateTime.now()),
                 );
                 Navigator.pushReplacement(
-                  // ignore: use_build_context_synchronously
                   context,
-                  MaterialPageRoute(
-                    // builder: (context) => const DashboardPage(),
-                    builder: (context) => SplashScreen(),
-                  ),
+                  MaterialPageRoute(builder: (context) => SplashScreen()),
                 );
-                // } else {
-                // if (authData.user.deviceId !=
-                //     await AuthLocalDatasource().getProfilUsaha('deviceId')) {
-                //   await AuthLocalDatasource().removeAuthData();
-                //   Navigator.pushReplacement(
-                //     // ignore: use_build_context_synchronously
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const LoginPage(),
-                //     ),
-                //   );
-                //   // ignore: use_build_context_synchronously
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     const SnackBar(
-                //       content: Text(
-                //         'Aplikasi sudah terinstall di perangkat lain !',
-                //       ),
-                //       backgroundColor: Colors.red,
-                //       duration: Duration(seconds: 1),
-                //     ),
-                //   );
-                // } else {
+
                 Navigator.pushReplacement(
-                  // ignore: use_build_context_synchronously
                   context,
-                  MaterialPageRoute(
-                    // builder: (context) => const DashboardPage(),
-                    builder: (context) => SplashScreen(),
-                  ),
+                  MaterialPageRoute(builder: (context) => SplashScreen()),
                 );
-                // }
-                // }
               } else if (state is LoginError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -289,10 +232,6 @@ class _LoginPageState extends State<LoginPage> {
                                           type: PageTransitionType.rightToLeft,
                                           child: RegisterPage(),
                                         ),
-                                        // MaterialPageRoute(
-                                        //   builder: (context) =>
-                                        //       const RegisterPage(),
-                                        // ),
                                       );
                                     },
                                     child: Container(

@@ -9,7 +9,7 @@ import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
 import '../../../core/constants/auth_service.dart';
 import '../../../data/models/request/register_request_model.dart';
-import '../../../widgets/bottom_nav_bar.dart';
+import '../../home/widgets/bottom_nav_bar.dart';
 // import '../../home/pages/dashboard_page.dart';
 import '../bloc/register/register_bloc.dart';
 

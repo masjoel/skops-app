@@ -6,7 +6,7 @@ import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:webview_skops/presentation/home/bloc/top10_poin_siswa/top10_poin_siswa_bloc.dart';
 
-import '../../data/models/response/top10_siswa_response_model.dart';
+import '../../../../data/models/response/top10_siswa_response_model.dart';
 
 class TopSiswa extends StatefulWidget {
   const TopSiswa({super.key});

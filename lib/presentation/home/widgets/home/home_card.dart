@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:webview_skops/core/inherited/tab_controller_provider.dart';
 
-import '../../data/datasources/dash_remote_datasource.dart';
-import '../../data/models/response/dash_totalpoin_response_model.dart';
-import '../../default/size_config.dart';
+import '../../../../data/datasources/dash_remote_datasource.dart';
+import '../../../../data/models/response/dash_totalpoin_response_model.dart';
+import '../../../../default/size_config.dart';
 
 class HomeCard extends StatefulWidget {
   const HomeCard({super.key});

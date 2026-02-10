@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:webview_skops/data/datasources/dash_remote_datasource.dart';
 import 'package:webview_skops/data/models/response/dash_totalpoin_response_model.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_skops/presentation/profil/pages/profil_page.dart';
 
-import '../../data/models/response/auth_response_model.dart';
+import '../../../../data/models/response/auth_response_model.dart';
 
 class HomePageHeader extends StatefulWidget {
   const HomePageHeader({super.key});
@@ -69,7 +71,7 @@ class _HomePageHeaderState extends State<HomePageHeader> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.screenHeight / 3,
+      height: SizeConfig.screenHeight / 3.3,
       width: SizeConfig.screenWidth,
       child: Stack(
         fit: StackFit.loose,
@@ -111,7 +113,11 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          print('tapped!');
+                          PersistentNavBarNavigator.pushNewScreen(
+                            context,
+                            screen: ProfilPage(),
+                            withNavBar: false,
+                          );
                         },
                         icon: Icon(
                           Icons.info_outline,

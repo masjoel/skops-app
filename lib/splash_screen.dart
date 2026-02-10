@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'data/datasources/auth_local_datasource.dart';
 import 'presentation/auth/pages/login_page.dart';
-import 'widgets/bottom_nav_bar.dart';
+import 'presentation/home/widgets/bottom_nav_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
