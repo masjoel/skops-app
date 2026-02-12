@@ -53,7 +53,7 @@ class _AddSkorPageState extends State<AddSkorPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
-          'Tambah Data',
+          'Tambah Jenis Poin',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,

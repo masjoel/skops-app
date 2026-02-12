@@ -54,7 +54,7 @@ class _EditSkorPageState extends State<EditSkorPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
-          'Tambah Data',
+          'Edit Jenis Poin',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,

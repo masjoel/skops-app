@@ -68,7 +68,7 @@ class _MasterPageState extends State<MasterPage> with SingleTickerProviderStateM
             labelColor: AppColors.primary,
             unselectedLabelColor: Colors.black,
             tabs: const [
-              Tab(child: FittedBox(child: Text('Skor Perilaku'))),
+              Tab(child: FittedBox(child: Text('Jenis Poin'))),
               Tab(child: FittedBox(child: Text('Siswa'))),
               Tab(child: FittedBox(child: Text('Guru'))),
               Tab(child: FittedBox(child: Text('Wali Kelas'))),
