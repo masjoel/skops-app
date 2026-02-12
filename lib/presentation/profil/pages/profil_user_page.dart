@@ -12,25 +12,28 @@ import 'package:webview_skops/core/constants/variables.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:webview_skops/data/models/response/auth_response_model.dart';
 import 'package:webview_skops/default/size_config.dart';
-import 'package:webview_skops/presentation/profil/bloc/profil/profil_bloc.dart';
-import 'package:webview_skops/presentation/profil/models/profil_response_model.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil_user/profil_user_bloc.dart';
+import 'package:webview_skops/presentation/profil/models/profil_user_response_model.dart';
 import 'package:webview_skops/presentation/profil/widgets/image_picker_field.dart';
 
-class ProfilPage extends StatefulWidget {
-  final Profil data;
-  const ProfilPage({super.key, required this.data});
+class ProfilUserPage extends StatefulWidget {
+  final ProfilUser data;
+  const ProfilUserPage({super.key, required this.data});
 
   @override
-  State<ProfilPage> createState() => _ProfilPageState();
+  State<ProfilUserPage> createState() => _ProfilUserPageState();
 }
 
-class _ProfilPageState extends State<ProfilPage> {
+class _ProfilUserPageState extends State<ProfilUserPage> {
   User? authUser;
-  TextEditingController? imageController;
+  TextEditingController? photoController;
   TextEditingController? namaController;
-  TextEditingController? alamatController;
-  TextEditingController? emailController;
-  TextEditingController? nspnController;
+  TextEditingController? usernameController;
+  TextEditingController? passwordController;
+  TextEditingController? q1Controller;
+  TextEditingController? q2Controller;
+  TextEditingController? a1Controller;
+  TextEditingController? a2Controller;
   bool _hasPopped = false;
 
   Future<void> getProfil() async {
@@ -42,11 +45,14 @@ class _ProfilPageState extends State<ProfilPage> {
 
   @override
   void initState() {
-    imageController = TextEditingController(text: widget.data.logo);
-    namaController = TextEditingController(text: widget.data.namaClient);
-    alamatController = TextEditingController(text: widget.data.alamatClient);
-    emailController = TextEditingController(text: widget.data.email);
-    nspnController = TextEditingController(text: widget.data.signature);
+    photoController = TextEditingController(text: widget.data.photo);
+    namaController = TextEditingController(text: widget.data.nama);
+    usernameController = TextEditingController(text: widget.data.username);
+    passwordController = TextEditingController(text: widget.data.password);
+    q1Controller = TextEditingController(text: widget.data.q1);
+    q2Controller = TextEditingController(text: widget.data.q2);
+    a1Controller = TextEditingController(text: widget.data.a1);
+    a2Controller = TextEditingController(text: widget.data.a2);
     super.initState();
     getProfil();
   }
@@ -54,9 +60,9 @@ class _ProfilPageState extends State<ProfilPage> {
   @override
   void dispose() {
     super.dispose();
-    // imageController!.dispose();
+    // photoController!.dispose();
     // namaController!.dispose();
-    // alamatController!.dispose();
+    // usernameController!.dispose();
     // namaController!.dispose();
     // namaController!.dispose();
   }
@@ -68,7 +74,7 @@ class _ProfilPageState extends State<ProfilPage> {
       appBar: AppBar(
         backgroundColor: Colors.blue.shade800,
         title: Text(
-          widget.data.namaClient,
+          widget.data.nama,
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: false,
@@ -131,7 +137,7 @@ class _ProfilPageState extends State<ProfilPage> {
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               child: Image.network(
-                '${Variables.imageBaseUrl}${imageController!.text}',
+                '${Variables.imageBaseUrl}${photoController!.text}',
                 width: 68.0,
                 height: 68.0,
                 fit: BoxFit.cover,
@@ -140,22 +146,8 @@ class _ProfilPageState extends State<ProfilPage> {
           ),
           SpaceHeight(16),
           Text(
-            widget.data.alamatClient,
+            widget.data.nama,
             style: GoogleFonts.poppins(
-              fontSize: SizeConfig.blockSizeVertical * 12 / 7.2,
-            ),
-          ),
-          SpaceHeight(8),
-          Text(
-            'email : ${widget.data.email}',
-            style: GoogleFonts.poppins(
-              fontSize: SizeConfig.blockSizeVertical * 12 / 7.2,
-            ),
-          ),
-          Text(
-            'NSPN : ${widget.data.signature}',
-            style: GoogleFonts.poppins(
-              fontWeight: FontWeight.bold,
               fontSize: SizeConfig.blockSizeVertical * 12 / 7.2,
             ),
           ),
@@ -185,7 +177,7 @@ class _ProfilPageState extends State<ProfilPage> {
         children: [
           Center(
             child: Text(
-              'Update Profil',
+              'Update Profil User',
               style: GoogleFonts.poppins(
                 // fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -199,52 +191,82 @@ class _ProfilPageState extends State<ProfilPage> {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              labelText: 'Nama Sekolah',
+              labelText: 'Nama',
             ),
           ),
           SpaceHeight(12),
           TextField(
-            controller: alamatController,
+            controller: usernameController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              labelText: 'Alamat',
+              labelText: 'Username',
             ),
             maxLines: 3,
           ),
           SpaceHeight(12),
           TextField(
-            controller: emailController,
+            controller: passwordController,
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              labelText: 'Email',
+              labelText: 'Password',
             ),
           ),
           SpaceHeight(12),
           TextField(
-            controller: nspnController,
+            controller: q1Controller,
             decoration: const InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              labelText: 'NSPN',
+              labelText: 'Pertanyaan 1',
+            ),
+          ),
+          SpaceHeight(12),
+          TextField(
+            controller: a1Controller,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              labelText: 'Jawaban 1',
+            ),
+          ),
+          SpaceHeight(12),
+          TextField(
+            controller: q2Controller,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              labelText: 'Pertanyaan 2',
+            ),
+          ),
+          SpaceHeight(12),
+          TextField(
+            controller: a2Controller,
+            decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              labelText: 'Jawaban 2',
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: const ImagePickerField(
-              title: "Logo",
+              title: "Photo",
               prefKey: "saved_logo_path",
               isCircle: true,
             ),
           ),
           SpaceHeight(12),
-          BlocConsumer<ProfilBloc, ProfilState>(
+          BlocConsumer<ProfilUserBloc, ProfilUserState>(
             listener: (context, state) {
-              if (state is ProfilSuccess && !_hasPopped) {
+              if (state is ProfilUserSuccess && !_hasPopped) {
                 _hasPopped = true;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -254,7 +276,7 @@ class _ProfilPageState extends State<ProfilPage> {
                 );
                 Navigator.pop(context, true);
               }
-              if (state is ProfilError) {
+              if (state is ProfilUserError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.message),
@@ -268,24 +290,27 @@ class _ProfilPageState extends State<ProfilPage> {
               return Button.filled(
                 color: AppColors.primary,
                 onPressed: () async {
-                  if (state is ProfilLoading) return;
+                  if (state is ProfilUserLoading) return;
                   final prefs = await SharedPreferences.getInstance();
                   final savedImagePath = prefs.getString('saved_logo_path');
-                  String logoPath = widget.data.logo;
+                  String photoPath = widget.data.photo;
                   if (savedImagePath != null &&
                       File(savedImagePath).existsSync()) {
-                    logoPath = savedImagePath;
+                    photoPath = savedImagePath;
                   }
                   // ignore: use_build_context_synchronously
-                  context.read<ProfilBloc>().add(
-                    ProfilEvent.updateProfil(
-                      Profil(
+                  context.read<ProfilUserBloc>().add(
+                    ProfilUserEvent.updateProfilUser(
+                      ProfilUser(
                         idx: widget.data.idx,
-                        namaClient: namaController!.text,
-                        alamatClient: alamatController!.text,
-                        email: emailController!.text,
-                        signature: nspnController!.text,
-                        logo: logoPath,
+                        nama: namaController!.text,
+                        username: usernameController!.text,
+                        password: passwordController!.text,
+                        q1: q1Controller!.text,
+                        q2: q2Controller!.text,
+                        a1: a1Controller!.text,
+                        a2: a2Controller!.text,
+                        photo: photoPath,
                       ),
                     ),
                   );

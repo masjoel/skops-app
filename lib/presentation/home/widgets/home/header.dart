@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
@@ -6,7 +7,10 @@ import 'package:webview_skops/data/datasources/dash_remote_datasource.dart';
 import 'package:webview_skops/data/models/response/dash_totalpoin_response_model.dart';
 import 'package:webview_skops/default/size_config.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil/profil_bloc.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil_user/profil_user_bloc.dart';
 import 'package:webview_skops/presentation/profil/pages/profil_page.dart';
+import 'package:webview_skops/presentation/profil/pages/profil_user_page.dart';
 
 import '../../../../data/models/response/auth_response_model.dart';
 
@@ -19,8 +23,8 @@ class HomePageHeader extends StatefulWidget {
 
 class _HomePageHeaderState extends State<HomePageHeader> {
   User? authUser;
-  // DashTotalPoinResponseModel? totalPoin; // atau
-  TotalPoin? totalPoin; // jika hanya butuh data-nya saja
+
+  TotalPoin? totalPoin;
   bool isLoading = false;
   String? errorMessage;
   int jPelanggaran = 0;
@@ -64,6 +68,8 @@ class _HomePageHeaderState extends State<HomePageHeader> {
   @override
   void initState() {
     super.initState();
+    context.read<ProfilBloc>().add(const ProfilEvent.fetch());
+    context.read<ProfilUserBloc>().add(ProfilUserEvent.fetch());
     getProfil();
     loadTotalPoin();
   }
@@ -101,39 +107,74 @@ class _HomePageHeaderState extends State<HomePageHeader> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    authUser?.nama ?? '',
-                    style: GoogleFonts.poppins(
-                      fontSize: SizeConfig.safeBlockHorizontal * 14 / 3.6,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          PersistentNavBarNavigator.pushNewScreen(
-                            context,
-                            screen: ProfilPage(),
-                            withNavBar: false,
+                  BlocBuilder<ProfilBloc, ProfilState>(
+                    builder: (context, state) {
+                      return state.maybeWhen(
+                        success: (profil) {
+                          return Text(
+                            profil.namaClient,
+                            style: GoogleFonts.poppins(
+                              fontSize:
+                                  SizeConfig.safeBlockHorizontal * 14 / 3.6,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           );
                         },
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Colors.white,
-                          size: SizeConfig.safeBlockHorizontal * 20 / 3.6,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          print('tapped2');
+                        loading: () => const Text(""),
+                        error: (msg) => Text("ERROR: $msg"),
+                        orElse: () => const Text(""),
+                      );
+                    },
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BlocBuilder<ProfilBloc, ProfilState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            success: (profil) => IconButton(
+                              onPressed: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: ProfilPage(data: profil),
+                                  withNavBar: false,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.info_outline,
+                                color: Colors.white,
+                                size: SizeConfig.safeBlockHorizontal * 20 / 3.6,
+                              ),
+                            ),
+                            loading: () => const Text(""),
+                            error: (msg) => Text("ERROR: $msg"),
+                            orElse: () => const Text(""),
+                          );
                         },
-                        icon: Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: SizeConfig.safeBlockHorizontal * 20 / 3.6,
-                        ),
+                      ),
+                      BlocBuilder<ProfilUserBloc, ProfilUserState>(
+                        builder: (context, state) {
+                          return state.maybeWhen(
+                            success: (profiluser) => IconButton(
+                              onPressed: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: ProfilUserPage(data: profiluser),
+                                  withNavBar: false,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.white,
+                                size: SizeConfig.safeBlockHorizontal * 20 / 3.6,
+                              ),
+                            ),
+                            loading: () => const Text(""),
+                            error: (msg) => Text("ERROR: $msg"),
+                            orElse: () => const Text(""),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -168,7 +209,7 @@ Widget userBalance(int jPoin, int jReward, int jPelanggaran) {
           color: Colors.grey.withOpacity(0.5),
           spreadRadius: 2,
           blurRadius: 2,
-          offset: Offset(0, 1), // changes position of shadow
+          offset: Offset(0, 1),
         ),
       ],
     ),
@@ -274,8 +315,4 @@ Widget userBalance(int jPoin, int jReward, int jPelanggaran) {
       ],
     ),
   );
-}
-
-void test() {
-  print('tap worked!');
 }

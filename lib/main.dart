@@ -11,6 +11,8 @@ import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/skor/skor_bloc.dart';
 import 'package:webview_skops/presentation/master/bloc/walikelas/walikelas_bloc.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil/profil_bloc.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil_user/profil_user_bloc.dart';
 import 'package:webview_skops/presentation/rekap/bloc/rekap/rekap_bloc.dart';
 import 'package:webview_skops/presentation/rekap/bloc/rekap_detail/rekap_detail_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
@@ -24,7 +26,8 @@ import 'presentation/auth/bloc/logout/logout_bloc.dart';
 import 'presentation/auth/bloc/register/register_bloc.dart';
 import 'presentation/home/bloc/top10_poin_siswa/top10_poin_siswa_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -38,19 +41,33 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LoginBloc(AuthRemoteDatasource())),
         BlocProvider(create: (context) => LogoutBloc(AuthRemoteDatasource())),
         BlocProvider(create: (context) => RegisterBloc()),
-        BlocProvider(create: (context) => Top10PoinSiswaBloc(DashRemoteDatasource())),
-        BlocProvider(create: (context) => Top10SkorBloc(DashRemoteDatasource())),
-        BlocProvider(create: (context) => JenisSkorBloc(DashRemoteDatasource())),
+        BlocProvider(
+          create: (context) => Top10PoinSiswaBloc(DashRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => Top10SkorBloc(DashRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => JenisSkorBloc(DashRemoteDatasource()),
+        ),
         BlocProvider(create: (context) => SiswaBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => GuruBloc(MasterRemoteDatasource())),
-        BlocProvider(create: (context) => WalikelasBloc(MasterRemoteDatasource())),
+        BlocProvider(
+          create: (context) => WalikelasBloc(MasterRemoteDatasource()),
+        ),
         BlocProvider(create: (context) => KelasBloc(MasterRemoteDatasource())),
-        BlocProvider(create: (context) => EkstensiBloc(MasterRemoteDatasource())),
-        BlocProvider(create: (context) => JurusanBloc(MasterRemoteDatasource())),
+        BlocProvider(
+          create: (context) => EkstensiBloc(MasterRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => JurusanBloc(MasterRemoteDatasource()),
+        ),
         BlocProvider(create: (context) => SkorBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => KontrolBloc(KontrolRemoteDs())),
         BlocProvider(create: (context) => RekapBloc(KontrolRemoteDs())),
         BlocProvider(create: (context) => RekapDetailBloc(KontrolRemoteDs())),
+        BlocProvider(create: (context) => ProfilBloc(MasterRemoteDatasource())),
+        BlocProvider(create: (context) => ProfilUserBloc(MasterRemoteDatasource())),
       ],
       child: MaterialApp(
         title: 'SKOPS',

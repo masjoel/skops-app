@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:webview_skops/core/constants/variables.dart';
@@ -12,6 +13,8 @@ import 'package:webview_skops/presentation/master/models/skor_master_response_mo
 import 'package:webview_skops/presentation/master/models/skor_request_model.dart';
 import 'package:webview_skops/presentation/master/models/walikelas_request_model.dart';
 import 'package:webview_skops/presentation/master/models/walikelas_response_model.dart';
+import 'package:webview_skops/presentation/profil/models/profil_response_model.dart';
+import 'package:webview_skops/presentation/profil/models/profil_user_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/ekstensi_request_model.dart';
 import 'package:webview_skops/presentation/setting/models/ekstensi_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/jurusan_request_model.dart';
@@ -748,6 +751,155 @@ class MasterRemoteDatasource {
     } else {
       final obj = jsonDecode(response.body);
       return Left(obj['message']);
+    }
+  }
+
+  //  --- PROFIL PERUSAHAAN ---
+  Future<Either<String, ProfilResponseModel>> getProfil() async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.get(
+      Uri.parse('${Variables.baseUrl}/api/v1/profil'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return Right(ProfilResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, ProfilResponseModel>> editProfil(
+    Profil data,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${Variables.baseUrl}/api/v1/profil/${data.idx}'),
+    );
+    request.fields.addAll({
+      'namaClient': data.namaClient,
+      'alamatClient': data.alamatClient,
+      'signature': data.signature,
+      'email': data.email,
+      '_method': 'PUT',
+    });
+
+    final logoFile = File(data.logo);
+    if (await logoFile.exists()) {
+      request.files.add(await http.MultipartFile.fromPath('logo', data.logo));
+    }
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    final responseString = await response.stream.bytesToString();
+
+    if (response.statusCode == 200) {
+      try {
+        final responseData = jsonDecode(responseString);
+        if (responseData == null || responseData['profil'] == null) {
+          return Left('Invalid response structure: profil data is null');
+        }
+
+        final transformedData = {
+          'message': responseData['message'] ?? 'Success',
+          'data': responseData['profil'],
+        };
+
+        return Right(ProfilResponseModel.fromMap(transformedData));
+      } catch (e) {
+        return Left('Terjadi kesalahan saat memproses respons');
+      }
+    } else {
+      try {
+        final errorData = jsonDecode(responseString);
+        return Left(
+          errorData['message'] ?? response.reasonPhrase ?? 'Unknown error',
+        );
+      } catch (e) {
+        return Left(response.reasonPhrase ?? 'Unknown error');
+      }
+    }
+  }
+
+  //  --- PROFIL USER ---
+  Future<Either<String, ProfilUserResponseModel>> getProfilUser() async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.get(
+      Uri.parse('${Variables.baseUrl}/api/v1/user/${authData.user.idx}'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return Right(ProfilUserResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, ProfilUserResponseModel>> editProfilUser(
+    ProfilUser data,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${Variables.baseUrl}/api/v1/user/${data.idx}'),
+    );
+
+    request.fields.addAll({
+      'username': data.username,
+      'password': data.password,
+      'nama': data.nama,
+      'q1': data.q1,
+      'q2': data.q2,
+      'a1': data.a1,
+      'a2': data.a2,
+      '_method': 'PUT',
+    });
+
+    final photoFile = File(data.photo);
+    if (await photoFile.exists()) {
+      request.files.add(await http.MultipartFile.fromPath('photo', data.photo));
+    }
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+
+    final responseString = await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(responseString);
+      if (responseData == null || responseData['user'] == null) {
+        return Left('Data kosong');
+      }
+
+      final transformedData = {
+        'message': responseData['message'] ?? 'Success',
+        'data': responseData['user'],
+      };
+      return Right(ProfilUserResponseModel.fromMap(transformedData));
+    } else {
+      return Left('Terjadi kesalahan saat memproses data');
     }
   }
 }

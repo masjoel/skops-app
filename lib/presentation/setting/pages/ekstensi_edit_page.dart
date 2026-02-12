@@ -15,7 +15,7 @@ class EditEkstensiPage extends StatefulWidget {
 }
 
 class _EditEkstensiPageState extends State<EditEkstensiPage> {
-    late TextEditingController nameController;
+  late TextEditingController nameController;
   bool _hasPopped = false;
   @override
   void initState() {
@@ -96,7 +96,9 @@ class _EditEkstensiPageState extends State<EditEkstensiPage> {
                         ),
                       ),
                     );
-                    context.read<EkstensiBloc>().add(const EkstensiEvent.fetch());
+                    context.read<EkstensiBloc>().add(
+                      const EkstensiEvent.fetch(),
+                    );
                   },
                   label: isLoading ? 'Menyimpan...' : 'Simpan',
                 );

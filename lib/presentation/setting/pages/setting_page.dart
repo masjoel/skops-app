@@ -6,6 +6,8 @@ import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/data/datasources/auth_local_datasource.dart';
 import 'package:webview_skops/presentation/auth/pages/login_page.dart';
+import 'package:webview_skops/presentation/profil/bloc/profil/profil_bloc.dart';
+import 'package:webview_skops/presentation/profil/models/profil_response_model.dart';
 import 'package:webview_skops/presentation/setting/pages/manage_kelas_page.dart';
 import 'package:webview_skops/presentation/profil/pages/profil_page.dart';
 import '../../../core/assets/assets.gen.dart';
@@ -22,6 +24,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   String roles = '';
+  late Profil? data;
   Future<void> getProfil() async {
     final authData = await AuthLocalDatasource().getAuthData();
     setState(() {
@@ -32,6 +35,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   void initState() {
     getProfil();
+    context.read<ProfilBloc>().add(const ProfilEvent.fetch());
     super.initState();
   }
 
@@ -56,18 +60,30 @@ class _SettingPageState extends State<SettingPage> {
               SpaceHeight(20),
               Row(
                 children: [
-                  MenuSetting(
-                    iconPath: Assets.images.logo.path,
-                    size: 32,
-                    label: 'Profil',
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        screen: ProfilPage(),
-                        withNavBar: false,
+                  BlocListener<ProfilBloc, ProfilState>(
+                    listener: (context, state) {
+                      state.maybeWhen(
+                        success: (profil) {
+                          setState(() {
+                            data = profil;
+                          });
+                        },
+                        orElse: () {},
                       );
                     },
-                    isImage: true,
+                    child: MenuSetting(
+                      iconPath: Assets.images.logo.path,
+                      size: 32,
+                      label: 'Profil',
+                      onPressed: () {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          screen: ProfilPage(data: data!),
+                          withNavBar: false,
+                        );
+                      },
+                      isImage: true,
+                    ),
                   ),
                 ],
               ),
