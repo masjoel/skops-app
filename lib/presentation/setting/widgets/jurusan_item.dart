@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/models/jurusan_response_model.dart';
-import 'package:webview_skops/presentation/setting/pages/jurusan_edit_page.dart';
+import 'package:webview_skops/presentation/setting/pages/jurusan/jurusan_edit_page.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/constants/colors.dart';
 

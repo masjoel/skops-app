@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:webview_skops/presentation/master/models/siswa_response_model.dart';
 import 'package:webview_skops/presentation/master/bloc/siswa/siswa_bloc.dart';
-import 'package:webview_skops/presentation/master/pages/siswa_edit_page.dart';
+import 'package:webview_skops/presentation/master/pages/siswa/siswa_edit_page.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/constants/colors.dart';
 

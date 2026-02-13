@@ -18,6 +18,7 @@ import 'package:webview_skops/presentation/rekap/bloc/rekap_detail/rekap_detail_
 import 'package:webview_skops/presentation/setting/bloc/ekstensi/ekstensi_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/jurusan/jurusan_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
+import 'package:webview_skops/presentation/setting/bloc/user/user_bloc.dart';
 import 'package:webview_skops/splash_screen.dart';
 import 'core/constants/colors.dart';
 import 'data/datasources/auth_remote_datasource.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => RekapDetailBloc(KontrolRemoteDs())),
         BlocProvider(create: (context) => ProfilBloc(MasterRemoteDatasource())),
         BlocProvider(create: (context) => ProfilUserBloc(MasterRemoteDatasource())),
+        BlocProvider(create: (context) => UserBloc(MasterRemoteDatasource())),
       ],
       child: MaterialApp(
         title: 'SKOPS',

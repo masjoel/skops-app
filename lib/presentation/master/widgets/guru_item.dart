@@ -5,7 +5,7 @@ import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/presentation/master/bloc/guru/guru_bloc.dart';
 import 'package:webview_skops/presentation/master/models/guru_response_model.dart';
-import 'package:webview_skops/presentation/master/pages/guru_edit_page.dart';
+import 'package:webview_skops/presentation/master/pages/guru/guru_edit_page.dart';
 
 class GuruItem extends StatefulWidget {
   final Guru data;

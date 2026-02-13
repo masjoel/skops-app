@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:webview_skops/presentation/setting/pages/ekstensi_page.dart';
-import 'package:webview_skops/presentation/setting/pages/jurusan_page.dart';
-import 'package:webview_skops/presentation/setting/pages/kelas_page.dart';
+import 'package:webview_skops/presentation/setting/pages/ekstensi/ekstensi_page.dart';
+import 'package:webview_skops/presentation/setting/pages/jurusan/jurusan_page.dart';
+import 'package:webview_skops/presentation/setting/pages/kelas/kelas_page.dart';
 
 import '../../../core/constants/colors.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:webview_skops/presentation/master/pages/guru_page.dart';
-import 'package:webview_skops/presentation/master/pages/siswa_page.dart';
-import 'package:webview_skops/presentation/master/pages/skor_page.dart';
-import 'package:webview_skops/presentation/master/pages/walikelas_page.dart';
+import 'package:webview_skops/presentation/master/pages/guru/guru_page.dart';
+import 'package:webview_skops/presentation/master/pages/siswa/siswa_page.dart';
+import 'package:webview_skops/presentation/master/pages/jenis_poin/skor_page.dart';
+import 'package:webview_skops/presentation/master/pages/walikelas/walikelas_page.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../../core/inherited/tab_controller_provider.dart';

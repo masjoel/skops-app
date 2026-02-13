@@ -10,6 +10,7 @@ import 'package:webview_skops/presentation/profil/bloc/profil/profil_bloc.dart';
 import 'package:webview_skops/presentation/profil/models/profil_response_model.dart';
 import 'package:webview_skops/presentation/setting/pages/manage_kelas_page.dart';
 import 'package:webview_skops/presentation/profil/pages/profil_page.dart';
+import 'package:webview_skops/presentation/setting/pages/user/user_page.dart';
 import '../../../core/assets/assets.gen.dart';
 import '../../../core/components/menu_setting.dart';
 import '../../../core/components/spaces.dart';
@@ -116,7 +117,13 @@ class _SettingPageState extends State<SettingPage> {
                     iconData: Icons.people_alt_outlined,
                     sizeIconData: 24,
                     label: 'User/pengguna',
-                    onPressed: () {},
+                    onPressed: () {
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        screen: const UserPage(),
+                        withNavBar: false,
+                      );
+                    },
                     isImage: true,
                   ),
                 ],

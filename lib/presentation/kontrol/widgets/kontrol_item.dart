@@ -25,7 +25,7 @@ class _KontrolItemState extends State<KontrolItem> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.white!, width: 0.5),
+        border: Border.all(color: Colors.white, width: 0.5),
         boxShadow: List.filled(
           1,
           BoxShadow(
@@ -251,15 +251,13 @@ class _KontrolItemState extends State<KontrolItem> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Opr : ${widget.data.opr}',
-                    style: TextStyle(fontSize: 11),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              Expanded(
+                child: Text(
+                  'Opr : ${widget.data.opr}',
+                  style: TextStyle(fontSize: 11),
+                  // maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(8.0, 1.0, 8.0, 1.0),

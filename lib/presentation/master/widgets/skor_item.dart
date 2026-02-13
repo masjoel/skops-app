@@ -6,7 +6,7 @@ import 'package:webview_skops/core/constants/colors.dart';
 import 'package:webview_skops/core/constants/string_extension.dart';
 import 'package:webview_skops/presentation/master/bloc/skor/skor_bloc.dart';
 import 'package:webview_skops/presentation/master/models/skor_master_response_model.dart';
-import 'package:webview_skops/presentation/master/pages/skor_edit_page.dart';
+import 'package:webview_skops/presentation/master/pages/jenis_poin/skor_edit_page.dart';
 
 class SkorItem extends StatefulWidget {
   final Skor data;

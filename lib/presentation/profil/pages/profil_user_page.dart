@@ -35,6 +35,7 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
   TextEditingController? a1Controller;
   TextEditingController? a2Controller;
   bool _hasPopped = false;
+  bool _isObscured = true;
 
   Future<void> getProfil() async {
     final data = await AuthLocalDatasource().getAuthData();
@@ -48,7 +49,7 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
     photoController = TextEditingController(text: widget.data.photo);
     namaController = TextEditingController(text: widget.data.nama);
     usernameController = TextEditingController(text: widget.data.username);
-    passwordController = TextEditingController(text: widget.data.password);
+    passwordController = TextEditingController();
     q1Controller = TextEditingController(text: widget.data.q1);
     q2Controller = TextEditingController(text: widget.data.q2);
     a1Controller = TextEditingController(text: widget.data.a1);
@@ -102,7 +103,7 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
                 ],
               ),
             ),
-            SpaceHeight(130),
+            SpaceHeight(80),
             userForm(),
             SpaceHeight(SizeConfig.safeBlockVertical * 100 / 9.2),
           ],
@@ -117,7 +118,7 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
         horizontal: SizeConfig.safeBlockHorizontal * 20 / 3,
       ),
       padding: EdgeInsets.all(8),
-      height: 200,
+      height: 150,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: Colors.white,
@@ -145,10 +146,15 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
             ),
           ),
           SpaceHeight(16),
-          Text(
-            widget.data.nama,
-            style: GoogleFonts.poppins(
-              fontSize: SizeConfig.blockSizeVertical * 12 / 7.2,
+          Center(
+            child: Text(
+              widget.data.nama,
+              style: GoogleFonts.poppins(
+                fontSize: SizeConfig.blockSizeVertical * 12 / 7.2,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -195,34 +201,53 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
             ),
           ),
           SpaceHeight(12),
-          TextField(
-            controller: usernameController,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          Container(
+            color: Colors.grey.shade200,
+            child: TextField(
+              controller: usernameController,
+              decoration: const InputDecoration(
+                // hoverColor: Colors.amber,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                ),
+                labelText: 'Username',
               ),
-              labelText: 'Username',
+              readOnly: true,
             ),
-            maxLines: 3,
           ),
           SpaceHeight(12),
           TextField(
             controller: passwordController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
               labelText: 'Password',
+              suffixIcon: IconButton(
+                icon: Icon(
+                  _isObscured ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _isObscured = !_isObscured;
+                  });
+                },
+              ),
             ),
+            obscureText: _isObscured,
           ),
           SpaceHeight(12),
-          TextField(
-            controller: q1Controller,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          Container(
+            color: Colors.grey.shade200,
+            child: TextField(
+              controller: q1Controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                ),
+                labelText: 'Pertanyaan 1',
               ),
-              labelText: 'Pertanyaan 1',
+              readOnly: true,
             ),
           ),
           SpaceHeight(12),
@@ -236,13 +261,17 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
             ),
           ),
           SpaceHeight(12),
-          TextField(
-            controller: q2Controller,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+          Container(
+            color: Colors.grey.shade200,
+            child: TextField(
+              controller: q2Controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                ),
+                labelText: 'Pertanyaan 2',
               ),
-              labelText: 'Pertanyaan 2',
+              readOnly: true,
             ),
           ),
           SpaceHeight(12),
@@ -315,7 +344,7 @@ class _ProfilUserPageState extends State<ProfilUserPage> {
                     ),
                   );
                 },
-                label:  'Simpan',
+                label: 'Simpan',
               );
             },
           ),

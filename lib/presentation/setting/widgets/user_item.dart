@@ -3,27 +3,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:webview_skops/core/components/spaces.dart';
 import 'package:webview_skops/core/constants/colors.dart';
-import 'package:webview_skops/presentation/master/bloc/walikelas/walikelas_bloc.dart';
-import 'package:webview_skops/presentation/master/models/walikelas_response_model.dart';
-import 'package:webview_skops/presentation/master/pages/walikelas/walikelas_edit_page.dart';
+import 'package:webview_skops/core/constants/string_extension.dart';
+import 'package:webview_skops/presentation/setting/bloc/user/user_bloc.dart';
+import 'package:webview_skops/presentation/setting/models/user_response_model.dart';
+import 'package:webview_skops/presentation/setting/pages/user/user_edit_page.dart';
 
-class WalikelasItem extends StatefulWidget {
-  final Walikelas data;
-  const WalikelasItem({super.key, required this.data});
+class UserItem extends StatefulWidget {
+  final SingleUser data;
+  const UserItem({super.key, required this.data});
 
   @override
-  State<WalikelasItem> createState() => _WalikelasItemState();
+  State<UserItem> createState() => _UserItemState();
 }
 
-class _WalikelasItemState extends State<WalikelasItem> {
+class _UserItemState extends State<UserItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.green[50],
+        color: Colors.white,
         borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.green[200]!, width: 0.5),
+        border: Border.all(color: Colors.white, width: 0.5),
         boxShadow: List.filled(
           1,
           BoxShadow(
@@ -45,33 +46,27 @@ class _WalikelasItemState extends State<WalikelasItem> {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    final result =
-                        await PersistentNavBarNavigator.pushNewScreen(
-                          context,
-                          screen: EditWalikelasPage(data: widget.data),
-                          withNavBar: false, // ⬅️ navbar hilang
-                        );
-                    if (result == true && mounted) {
-                      context.read<WalikelasBloc>().add(
-                        const WalikelasEvent.loadWalikelas(),
-                      );
-                    }
+                    PersistentNavBarNavigator.pushNewScreen(
+                      context,
+                      screen: EditUserPage(data: widget.data),
+                      withNavBar: false, // ⬅️ navbar hilang
+                    );
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.data.nama,
+                        widget.data.username ?? "",
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.green,
+                          color: Colors.black,
                         ),
                         textAlign: TextAlign.start,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       SpaceHeight(1), // jarak underline
-                      Container(height: 1, width: 100, color: Colors.green),
+                      Container(height: 1, width: 100, color: Colors.black),
                     ],
                   ),
                 ),
@@ -79,7 +74,7 @@ class _WalikelasItemState extends State<WalikelasItem> {
               SpaceWidth(8),
               GestureDetector(
                 onTap: () async {
-                  if (widget.data.id != 0) {
+                  if (widget.data.idx != 1) {
                     await showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -97,9 +92,11 @@ class _WalikelasItemState extends State<WalikelasItem> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                final bloc = context.read<WalikelasBloc>();
-                                bloc.add(WalikelasEvent.deleteWalikelas(widget.data.id));
-                                bloc.add(const WalikelasEvent.loadWalikelas());
+                                final bloc = context.read<UserBloc>();
+                                bloc.add(
+                                  UserEvent.deleteUser(widget.data.idx!),
+                                );
+                                bloc.add(const UserEvent.loadUser());
                                 Navigator.pop(context);
                               },
                               child: const Text("Hapus"),
@@ -116,33 +113,46 @@ class _WalikelasItemState extends State<WalikelasItem> {
           ),
           const SpaceHeight(8.0),
           Text(
-            'Kelas ${widget.data.kelas} ${widget.data.ext} ${widget.data.jurusan}',
+            widget.data.nama ?? '',
+            style: const TextStyle(fontWeight: FontWeight.bold),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
           ),
           SpaceHeight(8),
-          Container(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(4.0),
-              border: Border.all(color: Colors.green, width: 0.5),
-              boxShadow: List.filled(
-                1,
-                BoxShadow(
-                  offset: const Offset(0, 1),
-                  blurRadius: 0.0,
-                  blurStyle: BlurStyle.outer,
-                  spreadRadius: 1,
-                  color: Colors.black.withOpacity(0.1),
-                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Level'),
+                  Text(
+                    widget.data.level?.toTitleCase() ?? '',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
-            ),
-            child: Text(
-              '${widget.data.tahun}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Text('Status'),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(8,1,8,1),
+                    decoration: BoxDecoration(
+                      color: widget.data.status == 'Aktif'
+                          ? Colors.green
+                          : Colors.red,
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Text(
+                      widget.data.status ?? '',
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ],
               ),
-            ),
+            ],
           ),
         ],
       ),

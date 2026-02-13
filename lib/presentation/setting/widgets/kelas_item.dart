@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_skops/presentation/setting/bloc/kelas/kelas_bloc.dart';
 import 'package:webview_skops/presentation/setting/models/kelas_response_model.dart';
-import 'package:webview_skops/presentation/setting/pages/kelas_edit_page.dart';
+import 'package:webview_skops/presentation/setting/pages/kelas/kelas_edit_page.dart';
 import '../../../../core/components/spaces.dart';
 import '../../../../core/constants/colors.dart';
 

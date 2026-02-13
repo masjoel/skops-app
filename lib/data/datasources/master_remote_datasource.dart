@@ -21,6 +21,8 @@ import 'package:webview_skops/presentation/setting/models/jurusan_request_model.
 import 'package:webview_skops/presentation/setting/models/jurusan_response_model.dart';
 import 'package:webview_skops/presentation/setting/models/kelas_request_model.dart';
 import 'package:webview_skops/presentation/setting/models/kelas_response_model.dart';
+import 'package:webview_skops/presentation/setting/models/user_request_model.dart' hide SingleUser;
+import 'package:webview_skops/presentation/setting/models/user_response_model.dart';
 
 class MasterRemoteDatasource {
   // --- SISWA ---
@@ -899,7 +901,96 @@ class MasterRemoteDatasource {
       };
       return Right(ProfilUserResponseModel.fromMap(transformedData));
     } else {
-      return Left('Terjadi kesalahan saat memproses data');
+      return Left('Pastikan Data terisi semua...');
     }
   }
+
+  // --- USER ---
+  Future<Either<String, UserResponseModel>> getUser({
+    required int page,
+    String? search,
+  }) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+
+    final response = await http.get(
+      Uri.parse(
+        '${Variables.baseUrl}/api/v1/user?page=$page&search=${search ?? ""}',
+      ),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ${authData.token}',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Right(UserResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message'] ?? 'Error server');
+    }
+  }
+  Future<Either<String, UserResponseModel>> addUser(
+    UserRequestModel data,
+  ) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.post(
+      Uri.parse('${Variables.baseUrl}/api/v1/user'),
+      headers: headers,
+      body: jsonEncode(data.toMap()),
+    );
+
+    if (response.statusCode == 201) {
+      return Right(UserResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, UserResponseModel>> editUser(SingleUser data) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.put(
+      Uri.parse('${Variables.baseUrl}/api/v1/user/${data.idx}'),
+      headers: headers,
+      body: jsonEncode(data.toMap()),
+    );
+
+    if (response.statusCode == 200) {
+      return Right(UserResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+
+  Future<Either<String, UserResponseModel>> deleteUser(int id) async {
+    final authData = await AuthLocalDatasource().getAuthData();
+    final headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${authData.token}',
+    };
+    final response = await http.delete(
+      Uri.parse('${Variables.baseUrl}/api/v1/user/$id'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 201) {
+      return Right(UserResponseModel.fromJson(response.body));
+    } else {
+      final obj = jsonDecode(response.body);
+      return Left(obj['message']);
+    }
+  }
+  
 }
